@@ -70,7 +70,8 @@
 
         .board-container {
             display: grid;
-            grid-template-columns: repeat(6, minmax(260px, 1fr));
+            /* Reduced minimum width from 260px to 210px */
+            grid-template-columns: repeat(6, minmax(210px, 1fr));
             gap: 10px;
             width: max-content; 
             min-width: 100%;
@@ -109,7 +110,7 @@
             display: grid;
             grid-template-columns: 26px 1fr auto; 
             align-items: center;
-            gap: 8px;
+            gap: 10px; /* Slightly more gap for larger text */
             padding: 3px 10px;
             border-radius: 5px;
             border: 1px solid #21262d;
@@ -119,12 +120,19 @@
         .player-row:hover { transform: scale(1.02); }
         .player-row.rank-high { background-color: var(--bg-row-high); }
         .player-row.rank-low { background-color: var(--bg-row-low); opacity: 0.95; }
-        
-        /* New Neutral Rank Style */
         .player-row.rank-none { background-color: var(--bg-row-low); }
 
         .avatar { width: 26px; height: 26px; border-radius: 3px; background: #30363d; object-fit: cover; }
-        .username { font-size: 0.8rem; font-weight: 500; line-height: 1; }
+        
+        .username { 
+            font-size: 0.9rem; /* Increased from 0.8rem */
+            font-weight: 500; 
+            line-height: 1.2;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
         .rank-icon { font-size: 16px !important; font-variation-settings: 'wght' 600; user-select: none; }
         .rank-high .rank-icon { color: #238636; }
         .rank-low .rank-icon { color: #da3633; }
@@ -192,11 +200,11 @@
                 { name: "DeViL1090109010", rank: "low", img: "https://raw.githubusercontent.com/Kephralis/website/refs/heads/main/images/phold.png" }
             ],
             "Trash": [
-                { name: "PlaceholderUsername", rank: "none", img: "https://raw.githubusercontent.com/Kephralis/website/refs/heads/main/images/phold.png" },
-                { name: "PlaceholderUsername2", rank: "none", img: "https://raw.githubusercontent.com/Kephralis/website/refs/heads/main/images/phold.png" }
+                { name: "TrashPlayer1", rank: "none", img: "https://raw.githubusercontent.com/Kephralis/website/refs/heads/main/images/phold.png" },
+                { name: "TrashPlayer2", rank: "none", img: "https://raw.githubusercontent.com/Kephralis/website/refs/heads/main/images/phold.png" }
             ],
             "Cheating": [
-                { name: "PlaceholderUsername3", rank: "none", img: "https://raw.githubusercontent.com/Kephralis/website/refs/heads/main/images/phold.png" }
+                { name: "Cheater1", rank: "none", img: "https://raw.githubusercontent.com/Kephralis/website/refs/heads/main/images/phold.png" }
             ]
         };
 
