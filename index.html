@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Divinity Tier List</title>
+    <title>Leaderboard - Final Template</title>
     
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@400..600&display=block" rel="stylesheet" />
@@ -18,7 +18,11 @@
             --text-muted: #7d8590;
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
         body {
             font-family: 'Geist', sans-serif;
@@ -27,37 +31,9 @@
             display: flex;
             flex-direction: column;
             min-height: 100vh;
-            padding: 3rem 2rem;
+            padding: 2rem;
         }
 
-        /* --- Header Styling --- */
-        .main-header {
-            margin-bottom: 40px;
-            padding-left: 4px;
-        }
-
-        .main-header h1 {
-            font-size: 3rem;
-            font-weight: 900;
-            letter-spacing: -0.05em;
-            margin-bottom: 4px;
-            background: linear-gradient(to right, #ffffff, #7d8590);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .main-header .subtext {
-            color: var(--text-muted);
-            font-size: 0.95rem;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .main-header .subtext strong { color: var(--text-main); font-weight: 600; }
-        .main-header .divider { opacity: 0.3; }
-
-        /* --- Tier Board Styling --- */
         .board-wrapper {
             width: 100%;
             overflow-x: auto;
@@ -74,6 +50,7 @@
             gap: 10px;
             width: max-content; 
             min-width: 100%;
+            margin: 0 auto;
         }
 
         .tier-column { background-color: transparent; height: fit-content; }
@@ -126,6 +103,7 @@
         .rank-high .rank-icon { color: #238636; }
         .rank-low .rank-icon { color: #da3633; }
 
+        /* --- New Footer Styling --- */
         .board-footer {
             margin-top: 32px;
             color: var(--text-muted);
@@ -140,25 +118,16 @@
 </head>
 <body>
 
-    <header class="main-header">
-        <h1>Divinity Tier List</h1>
-        <div class="subtext">
-            <span>Created by <strong>Kephralis / Synix</strong></span>
-            <span class="divider">•</span>
-            <span>Updated: March 28, 2026</span>
-        </div>
-    </header>
-
     <div class="board-wrapper">
         <div class="board-container" id="leaderboard"></div>
     </div>
 
-    <footer class="board-footer">
+    <div class="board-footer">
         <p>All players who appear on this tier list have been in a 1v1 with me.</p>
         <p>See <span class="score-highlight">{score}</span> for more information.</p>
         <p>Player skill level measurement is based on score, strategy and how easy or hard it is to win against the player.</p>
         <p>The order of players from top to bottom is not relevant.</p>
-    </footer>
+    </div>
 
     <script>
         const data = {
