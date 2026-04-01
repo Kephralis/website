@@ -3,31 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Leaderboard - Geist Edition</title>
-    
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/geist@1.3.0/dist/fonts/geist-sans/style.css">
+    <title>Player Leaderboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
     
     <style>
+        /* --- Core Reset & Styles --- */
         :root {
-            /* Color Palette from Reference */
-            --bg-body: #0d1117;
-            --bg-card: #161b22;
+            /* Colors precise to the reference image */
+            --bg-body: #101217;
+            --bg-card: #181d24;
+            --bg-row-even: #181d24; /* Darker than odd rows to match image */
+            --bg-row-odd: #1b2129; 
+            --text-main: #FFFFFF;
+            --text-muted: #8b9bb4;
             
-            /* Row Colors */
-            --bg-row-high: #1c2128; /* Brighter for Upper Tier */
-            --bg-row-low: #13171d;  /* Darker for Lower Tier */
+            /* Tier Header accent colors */
+            --tier1-accent: #f59e0b;
+            --tier2-accent: #9ca3af;
+            --tier3-accent: #b45309;
+            --tier4-accent: #111827;
+            --tier5-accent: #111827;
             
-            --text-main: #ffffff;
-            --text-muted: #7d8590;
-            
-            /* Status Colors */
-            --status-high: #238636; /* Green */
-            --status-low: #da3633;  /* Red/Darker */
-            
-            /* Tier Header Accents */
-            --tier1-gold: #d29922;
-            --tier2-silver: #8b949e;
-            --tier3-bronze: #af7d24;
+            /* Status Indicators */
+            --status-green: #10b981;
+            --status-red: #ef4444;
+            --status-grey: #6b7280;
         }
 
         * {
@@ -37,184 +37,275 @@
         }
 
         body {
-            font-family: 'Geist Sans', sans-serif;
+            font-family: 'Montserrat', sans-serif;
             background-color: var(--bg-body);
             color: var(--text-main);
-            padding: 2rem;
             display: flex;
             justify-content: center;
+            min-height: 100vh;
+            padding: 2rem;
+            line-height: 1.5;
         }
 
-        /* --- Grid Layout --- */
+        /* --- Main Layout Container --- */
         .board-container {
             display: grid;
-            grid-template-columns: repeat(5, minmax(250px, 1fr));
-            gap: 12px;
+            grid-template-columns: repeat(5, minmax(280px, 1fr));
+            gap: 1.5rem;
             width: 100%;
-            max-width: 1600px;
+            max-width: 1800px;
         }
 
-        /* Responsive Columns */
-        @media (max-width: 1400px) { .board-container { grid-template-columns: repeat(3, 1fr); } }
-        @media (max-width: 900px) { .board-container { grid-template-columns: repeat(2, 1fr); } }
-        @media (max-width: 600px) { .board-container { grid-template-columns: 1fr; } }
+        /* Responsive Breakpoints: Make columns stack on small screens */
+        @media (max-width: 1400px) {
+            .board-container { grid-template-columns: repeat(3, 1fr); }
+        }
+        @media (max-width: 900px) {
+            .board-container { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 600px) {
+            .board-container { grid-template-columns: 1fr; }
+        }
 
+        /* --- Tier Column Styles --- */
         .tier-column {
             background-color: var(--bg-card);
-            border-radius: 6px;
-            border: 1px solid #30363d;
+            border-radius: 8px;
             overflow: hidden;
-            height: fit-content;
+            border: 1px solid #232a35;
         }
 
-        /* --- Headers --- */
+        /* Tier Header (The Trophies) */
         .tier-header {
-            padding: 12px;
-            text-align: center;
-            font-weight: 700;
-            font-size: 1.1rem;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
-            background: linear-gradient(to bottom, rgba(255,255,255,0.03), transparent);
-            border-bottom: 1px solid #30363d;
+            gap: 0.75rem;
+            padding: 1rem;
+            font-weight: 700;
+            font-size: 1.25rem;
+            text-transform: capitalize;
         }
 
-        .tier-1 .tier-header { color: var(--tier1-gold); }
-        .tier-2 .tier-header { color: var(--tier2-silver); }
-        .tier-3 .tier-header { color: var(--tier3-bronze); }
+        /* Dynamic Tier Header Colors */
+        .tier-1 .tier-header { color: var(--tier1-accent); background: linear-gradient(to bottom, rgba(245, 158, 11, 0.1), transparent); }
+        .tier-2 .tier-header { color: var(--tier2-accent); background: linear-gradient(to bottom, rgba(156, 163, 175, 0.1), transparent); }
+        .tier-3 .tier-header { color: var(--tier3-accent); background: linear-gradient(to bottom, rgba(180, 83, 9, 0.1), transparent); }
+        .tier-4 .tier-header { color: var(--text-main); background: linear-gradient(to bottom, rgba(17, 24, 39, 0.3), transparent); }
+        .tier-5 .tier-header { color: var(--text-main); background: linear-gradient(to bottom, rgba(17, 24, 39, 0.3), transparent); }
 
-        /* --- Player Rows --- */
-        .player-row {
-            display: grid;
-            grid-template-columns: 4px 32px 1fr auto;
-            align-items: center;
-            gap: 10px;
-            padding: 6px 10px;
-            border-bottom: 1px solid #21262d;
-            transition: filter 0.2s;
+        .trophy-icon {
+            font-size: 1.5rem;
         }
 
-        .player-row:hover {
-            filter: brightness(1.2);
-        }
-
-        /* High vs Low Styling */
-        .player-row.rank-high {
-            background-color: var(--bg-row-high);
-        }
-
-        .player-row.rank-low {
-            background-color: var(--bg-row-low);
-            opacity: 0.9;
-        }
-
-        /* Status Indicator Left Bar */
-        .status-bar {
-            height: 80%;
-            width: 3px;
-            border-radius: 2px;
-        }
-        .rank-high .status-bar { background-color: var(--status-high); }
-        .rank-low .status-bar { background-color: var(--status-low); }
-
-        .avatar {
-            width: 28px;
-            height: 28px;
-            border-radius: 3px;
-            background: #30363d;
-        }
-
-        .username {
-            font-size: 0.85rem;
-            font-weight: 500;
-            letter-spacing: -0.01em;
-        }
-
-        /* --- Arrow Logic --- */
-        .arrows {
+        /* --- Player List and Rows --- */
+        .player-list {
             display: flex;
             flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            color: var(--text-muted);
-            font-size: 0.7rem;
-            line-height: 0.6;
         }
 
-        /* Double Arrow for High Rank */
-        .rank-high .arrows::before { content: '▲'; }
-        .arrows::after { content: '▲'; }
-        
-        /* Tier 1 special case: always high/gold */
-        .tier-1 .player-row { background-color: rgba(210, 153, 34, 0.1); }
+        .player-row {
+            display: grid;
+            grid-template-columns: 8px 36px 1fr auto;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.5rem 0.75rem;
+            border-bottom: 1px solid #232a35;
+            transition: background-color 0.2s;
+        }
 
+        /* Hover effect for better UX */
+        .player-row:hover {
+            background-color: rgba(255, 255, 255, 0.03);
+            cursor: pointer;
+        }
+
+        /* Alternating Row Colors like the image */
+        .player-list .player-row:nth-child(odd) {
+            background-color: var(--bg-row-odd);
+        }
+
+        .player-list .player-row:nth-child(even) {
+            background-color: var(--bg-row-even);
+        }
+
+        /* -- Row Components -- */
+        .status-indicator {
+            width: 8px;
+            height: 100%;
+            border-radius: 4px;
+        }
+        /* Dynamic Status Colors */
+        .status-online { background-color: var(--status-green); }
+        .status-offline { background-color: var(--status-red); }
+        .status-unknown { background-color: var(--status-grey); }
+
+        .player-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 4px;
+            object-fit: cover;
+            border: 1px solid #303b4a;
+        }
+
+        .player-name {
+            color: var(--text-main);
+            font-size: 0.9rem;
+            font-weight: 500;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis; /* Handles long names cleanly */
+        }
+
+        .arrow-icons {
+            display: flex;
+            flex-direction: column;
+            color: var(--text-muted);
+            font-size: 0.7rem;
+            opacity: 0.6;
+            gap: 2px;
+        }
     </style>
 </head>
 <body>
 
-    <div class="board-container" id="leaderboard"></div>
+    <div class="board-container" id="board">
+        </div>
 
     <script>
-        /**
-         * EASY TO EDIT DATA SECTION
-         * rank: 'high' (Brighter, double arrow, green bar)
-         * rank: 'low'  (Darker, single arrow, red bar)
-         */
-        const data = {
+        // --- DATA SECTION: EDIT THIS PART ---
+        // Change, add, or remove players here.
+        // Status: 'online', 'offline', or 'unknown'
+        const playersByTier = {
             "Tier 1": [
-                { name: "K1RBE", rank: "high", img: "https://minotar.net/avatar/K1RBE/32.png" }
+                { name: "K1RBE", status: "online", avatar: "https://minotar.net/avatar/K1RBE/32.png" }
             ],
             "Tier 2": [
-                { name: "Camcal", rank: "high", img: "https://minotar.net/avatar/Camcal/32.png" },
-                { name: "Demonmcc", rank: "high", img: "https://minotar.net/avatar/Demonmcc/32.png" },
-                { name: "KingD3fault", rank: "high", img: "https://minotar.net/avatar/KingD3fault/32.png" },
-                { name: "qPower", rank: "low", img: "https://minotar.net/avatar/qPower/32.png" },
-                { name: "Tokenu", rank: "low", img: "https://minotar.net/avatar/Tokenu/32.png" },
-                { name: "cloudmlol", rank: "low", img: "https://minotar.net/avatar/cloudmlol/32.png" }
+                { name: "Camcal", status: "online", avatar: "https://minotar.net/avatar/Camcal/32.png" },
+                { name: "Demonmcc", status: "online", avatar: "https://minotar.net/avatar/Demonmcc/32.png" },
+                { name: "KingD3fault", status: "online", avatar: "https://minotar.net/avatar/KingD3fault/32.png" },
+                { name: "qPower", status: "online", avatar: "https://minotar.net/avatar/qPower/32.png" },
+                { name: "Tokenu", status: "online", avatar: "https://minotar.net/avatar/Tokenu/32.png" },
+                { name: "cloudmlol", status: "online", avatar: "https://minotar.net/avatar/cloudmlol/32.png" },
+                { name: "Cowarted", status: "online", avatar: "https://minotar.net/avatar/Cowarted/32.png" },
+                { name: "Dwggo", status: "online", avatar: "https://minotar.net/avatar/Dwggo/32.png" },
+                { name: "SuperBowserSpike", status: "online", avatar: "https://minotar.net/avatar/SuperBowserSpike/32.png" },
+                { name: "C1utch", status: "online", avatar: "https://minotar.net/avatar/C1utch/32.png" },
+                { name: "MoezXF", status: "online", avatar: "https://minotar.net/avatar/MoezXF/32.png" },
+                { name: "IRONSKKEGOXX7153", status: "online", avatar: "https://minotar.net/avatar/IRONSKKEGOXX7153/32.png" },
+                { name: "ItzEggman", status: "online", avatar: "https://minotar.net/avatar/ItzEggman/32.png" },
+                { name: "GalleryWalk", status: "online", avatar: "https://minotar.net/avatar/GalleryWalk/32.png" },
+                { name: "OODarkmoon", status: "online", avatar: "https://minotar.net/avatar/OODarkmoon/32.png" },
+                { name: "Salty_Bear", status: "online", avatar: "https://minotar.net/avatar/Salty_Bear/32.png" },
+                { name: "lynqxzu", status: "online", avatar: "https://minotar.net/avatar/lynqxzu/32.png" }
             ],
             "Tier 3": [
-                { name: "jayckuuub", rank: "high", img: "https://minotar.net/avatar/jayckuuub/32.png" },
-                { name: "ItzTerrel", rank: "high", img: "https://minotar.net/avatar/ItzTerrel/32.png" },
-                { name: "thelastw1nter", rank: "low", img: "https://minotar.net/avatar/thelastw1nter/32.png" },
-                { name: "isolation", rank: "low", img: "https://minotar.net/avatar/isolation/32.png" }
+                { name: "jayckuuub", status: "offline", avatar: "https://minotar.net/avatar/jayckuuub/32.png" },
+                { name: "ItzTerrel", status: "offline", avatar: "https://minotar.net/avatar/ItzTerrel/32.png" },
+                { name: "thelastw1nter", status: "offline", avatar: "https://minotar.net/avatar/thelastw1nter/32.png" },
+                { name: "isolatiion", status: "offline", avatar: "https://minotar.net/avatar/isolatiion/32.png" },
+                { name: "NoLimitDash", status: "offline", avatar: "https://minotar.net/avatar/NoLimitDash/32.png" },
+                { name: "otbkibble", status: "offline", avatar: "https://minotar.net/avatar/otbkibble/32.png" },
+                { name: "cizell", status: "offline", avatar: "https://minotar.net/avatar/cizell/32.png" },
+                { name: "Xeirlo", status: "offline", avatar: "https://minotar.net/avatar/Xeirlo/32.png" },
+                { name: "iLurkin", status: "offline", avatar: "https://minotar.net/avatar/iLurkin/32.png" },
+                { name: "N9vara", status: "offline", avatar: "https://minotar.net/avatar/N9vara/32.png" },
+                { name: "ASVxGOD_", status: "offline", avatar: "https://minotar.net/avatar/ASVxGOD_/32.png" },
+                { name: "Fluffychrls5499", status: "offline", avatar: "https://minotar.net/avatar/Fluffychrls5499/32.png" },
+                { name: "lmHT3", status: "offline", avatar: "https://minotar.net/avatar/lmHT3/32.png" },
+                { name: "BuffRobloxNoob", status: "offline", avatar: "https://minotar.net/avatar/BuffRobloxNoob/32.png" },
+                { name: "Epsteinnnnnn", status: "offline", avatar: "https://minotar.net/avatar/Epsteinnnnnn/32.png" },
+                { name: "A_6", status: "offline", avatar: "https://minotar.net/avatar/A_6/32.png" },
+                { name: "ConfMightLeave", status: "offline", avatar: "https://minotar.net/avatar/ConfMightLeave/32.png" }
             ],
             "Tier 4": [
-                { name: "MPI_YT", rank: "high", img: "https://minotar.net/avatar/MPI_YT/32.png" },
-                { name: "chuypopis", rank: "low", img: "https://minotar.net/avatar/chuypopis/32.png" }
+                { name: "MPI_YT", status: "unknown", avatar: "https://minotar.net/avatar/MPI_YT/32.png" },
+                { name: "chuypopis", status: "unknown", avatar: "https://minotar.net/avatar/chuypopis/32.png" },
+                { name: "trayde_", status: "unknown", avatar: "https://minotar.net/avatar/trayde_/32.png" },
+                { name: "8amnNoticeMe", status: "unknown", avatar: "https://minotar.net/avatar/8amnNoticeMe/32.png" },
+                { name: "Sasukex7z", status: "unknown", avatar: "https://minotar.net/avatar/Sasukex7z/32.png" },
+                { name: "TheSwe4ter", status: "unknown", avatar: "https://minotar.net/avatar/TheSwe4ter/32.png" },
+                { name: "CXPYR1GHT", status: "unknown", avatar: "https://minotar.net/avatar/CXPYR1GHT/32.png" },
+                { name: "K1RBEOFASIA", status: "unknown", avatar: "https://minotar.net/avatar/K1RBEOFASIA/32.png" },
+                { name: "1xsv", status: "unknown", avatar: "https://minotar.net/avatar/1xsv/32.png" },
+                { name: "Cqsualty", status: "unknown", avatar: "https://minotar.net/avatar/Cqsualty/32.png" },
+                { name: "7daysglow", status: "unknown", avatar: "https://minotar.net/avatar/7daysglow/32.png" },
+                { name: "WorstInArizona", status: "unknown", avatar: "https://minotar.net/avatar/WorstInArizona/32.png" },
+                { name: "PijasLover", status: "unknown", avatar: "https://minotar.net/avatar/PijasLover/32.png" },
+                { name: "s1eepx", status: "unknown", avatar: "https://minotar.net/avatar/s1eepx/32.png" },
+                { name: "Nadon0202", status: "unknown", avatar: "https://minotar.net/avatar/Nadon0202/32.png" },
+                { name: "gabriel2_", status: "unknown", avatar: "https://minotar.net/avatar/gabriel2_/32.png" },
+                { name: "69Exho", status: "unknown", avatar: "https://minotar.net/avatar/69Exho/32.png" }
             ],
-            "Tier 5": [
-                { name: "ALIPROYT1", rank: "high", img: "https://minotar.net/avatar/ALIPROYT1/32.png" },
-                { name: "hiadyman", rank: "low", img: "https://minotar.net/avatar/hiadyman/32.png" }
+             "Tier 5": [
+                { name: "ALIPROYT1", status: "unknown", avatar: "https://minotar.net/avatar/ALIPROYT1/32.png" },
+                { name: "hiadyman", status: "unknown", avatar: "https://minotar.net/avatar/hiadyman/32.png" },
+                { name: "barbarthecrafter", status: "unknown", avatar: "https://minotar.net/avatar/barbarthecrafter/32.png" },
+                { name: "Certified7399", status: "unknown", avatar: "https://minotar.net/avatar/Certified7399/32.png" },
+                { name: "FIERROSO01", status: "unknown", avatar: "https://minotar.net/avatar/FIERROSO01/32.png" },
+                { name: "Khromer", status: "unknown", avatar: "https://minotar.net/avatar/Khromer/32.png" },
+                { name: "SorryForSnow", status: "unknown", avatar: "https://minotar.net/avatar/SorryForSnow/32.png" },
+                { name: "Ted_TNT", status: "unknown", avatar: "https://minotar.net/avatar/Ted_TNT/32.png" },
+                { name: "SpeedszYT", status: "unknown", avatar: "https://minotar.net/avatar/SpeedszYT/32.png" },
+                { name: "Mrlqkli", status: "unknown", avatar: "https://minotar.net/avatar/Mrlqkli/32.png" },
+                { name: "BobGuyMC", status: "unknown", avatar: "https://minotar.net/avatar/BobGuyMC/32.png" },
+                { name: "b3bu7", status: "unknown", avatar: "https://minotar.net/avatar/b3bu7/32.png" },
+                { name: "Nytrrixx", status: "unknown", avatar: "https://minotar.net/avatar/Nytrrixx/32.png" },
+                { name: "___Tomson___", status: "unknown", avatar: "https://minotar.net/avatar/___Tomson___/32.png" },
+                { name: "Louis4697", status: "unknown", avatar: "https://minotar.net/avatar/Louis4697/32.png" },
+                { name: "Llyfter_", status: "unknown", avatar: "https://minotar.net/avatar/Llyfter_/32.png" },
+                { name: "Bardia_gamy", status: "unknown", avatar: "https://minotar.net/avatar/Bardia_gamy/32.png" }
             ]
         };
+        // --- END DATA SECTION ---
 
-        function render() {
-            const container = document.getElementById('leaderboard');
-            
-            Object.keys(data).forEach((tier, index) => {
-                const tierDiv = document.createElement('div');
-                tierDiv.className = `tier-column tier-${index + 1}`;
-                
-                let playersHtml = data[tier].map(p => `
-                    <div class="player-row rank-${p.rank}">
-                        <div class="status-bar"></div>
-                        <img src="${p.img}" class="avatar">
-                        <div class="username">${p.name}</div>
-                        <div class="arrows"></div>
+        // Function to create the visual HTML for a single player row
+        function createPlayerRow(player) {
+            return `
+                <div class="player-row">
+                    <div class="status-indicator status-${player.status}"></div>
+                    <img src="${player.avatar}" alt="${player.name} avatar" class="player-avatar">
+                    <div class="player-name">${player.name}</div>
+                    <div class="arrow-icons">
+                        <span>&#9650;</span>
+                        <span>&#9660;</span>
                     </div>
-                `).join('');
-
-                tierDiv.innerHTML = `
-                    <div class="tier-header">🏆 ${tier}</div>
-                    <div class="player-list">${playersHtml}</div>
-                `;
-                container.appendChild(tierDiv);
-            });
+                </div>
+            `;
         }
 
-        render();
+        // Main function to generate the leaderboard
+        function renderBoard() {
+            const boardContainer = document.getElementById('board');
+            let boardHtml = '';
+
+            // Loop through each tier and create its column
+            Object.keys(playersByTier).forEach((tierName, index) => {
+                const tierClassName = tierName.toLowerCase().replace(' ', '-'); // e.g., 'tier 1' -> 'tier-1'
+                const players = playersByTier[tierName];
+                
+                // Create the overall HTML structure for the column
+                let columnHtml = `
+                    <div class="tier-column ${tierClassName}">
+                        <div class="tier-header">
+                            <span class="trophy-icon">&#127942;</span>
+                            <span class="tier-title">${tierName}</span>
+                        </div>
+                        <div class="player-list">
+                            ${players.map(player => createPlayerRow(player)).join('')}
+                        </div>
+                    </div>
+                `;
+                boardHtml += columnHtml;
+            });
+
+            // Put the generated HTML into the main container
+            boardContainer.innerHTML = boardHtml;
+        }
+
+        // Run the render function when the page loads
+        document.addEventListener('DOMContentLoaded', renderBoard);
+
     </script>
 </body>
 </html>
