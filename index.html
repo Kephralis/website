@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Leaderboard - Final Template</title>
+    <title>Divinity Tier List</title>
     
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@400..600&display=block" rel="stylesheet" />
@@ -18,10 +18,10 @@
             --text-muted: #7d8590;
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
+        * { 
+            box-sizing: border-box; 
+            margin: 0; 
+            padding: 0; 
         }
 
         body {
@@ -31,9 +31,39 @@
             display: flex;
             flex-direction: column;
             min-height: 100vh;
-            padding: 2rem;
+            padding: 3rem 2rem;
         }
 
+        /* --- Header Section --- */
+        .main-header {
+            margin-bottom: 40px;
+            padding-left: 4px;
+        }
+
+        .main-header h1 {
+            font-size: 2.75rem;
+            font-weight: 500; /* Lightened weight */
+            letter-spacing: -0.03em;
+            margin-bottom: 4px;
+            background: linear-gradient(to right, #ffffff, #aeb4be);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .main-header .subtext {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 400; /* No bold for names */
+        }
+
+        .main-header .divider { 
+            opacity: 0.3; 
+        }
+
+        /* --- Board Container & Scrollbar --- */
         .board-wrapper {
             width: 100%;
             overflow-x: auto;
@@ -50,10 +80,13 @@
             gap: 10px;
             width: max-content; 
             min-width: 100%;
-            margin: 0 auto;
         }
 
-        .tier-column { background-color: transparent; height: fit-content; }
+        /* --- Tier Columns & Headers --- */
+        .tier-column { 
+            background-color: transparent; 
+            height: fit-content; 
+        }
 
         .tier-header {
             padding: 20px 14px;
@@ -71,7 +104,10 @@
             border: 1px solid #30363d;
         }
 
-        .tier-header .material-symbols-outlined { font-size: 32px; font-variation-settings: 'wght' 400; }
+        .tier-header .material-symbols-outlined { 
+            font-size: 32px; 
+            font-variation-settings: 'wght' 400; 
+        }
 
         .tier-1 .tier-header { color: #a3e635; background: linear-gradient(to bottom, rgba(163, 230, 53, 0.2), var(--bg-card)); }
         .tier-2 .tier-header { color: #facc15; background: linear-gradient(to bottom, rgba(250, 204, 21, 0.2), var(--bg-card)); }
@@ -80,7 +116,12 @@
         .tier-5 .tier-header { color: #a87956; background: linear-gradient(to bottom, rgba(168, 121, 86, 0.25), var(--bg-card)); }
         .tier-6 .tier-header { color: #8b949e; background: linear-gradient(to bottom, rgba(139, 148, 158, 0.2), var(--bg-card)); }
 
-        .player-list { display: flex; flex-direction: column; gap: 4px; }
+        /* --- Player List & Rows --- */
+        .player-list { 
+            display: flex; 
+            flex-direction: column; 
+            gap: 4px; /* Fixed sub-pixel gap */
+        }
 
         .player-row {
             display: grid;
@@ -97,19 +138,38 @@
         .player-row.rank-high { background-color: var(--bg-row-high); }
         .player-row.rank-low { background-color: var(--bg-row-low); opacity: 0.95; }
 
-        .avatar { width: 26px; height: 26px; border-radius: 3px; background: #30363d; object-fit: cover; }
-        .username { font-size: 0.8rem; font-weight: 500; line-height: 1; }
-        .rank-icon { font-size: 16px !important; font-variation-settings: 'wght' 600; user-select: none; }
+        /* --- Player Details --- */
+        .avatar { 
+            width: 26px; 
+            height: 26px; 
+            border-radius: 3px; 
+            background: #30363d; 
+            object-fit: cover; 
+        }
+
+        .username { 
+            font-size: 0.8rem; 
+            font-weight: 500; 
+            line-height: 1; 
+        }
+
+        .rank-icon { 
+            font-size: 16px !important; 
+            font-variation-settings: 'wght' 600; 
+            user-select: none; 
+        }
+
         .rank-high .rank-icon { color: #238636; }
         .rank-low .rank-icon { color: #da3633; }
 
-        /* --- New Footer Styling --- */
+        /* --- Footer Section --- */
         .board-footer {
             margin-top: 32px;
             color: var(--text-muted);
             font-size: 0.85rem;
             line-height: 1.6;
             max-width: 900px;
+            padding-left: 4px;
         }
         .board-footer p { margin-bottom: 2px; }
         .score-highlight { color: var(--text-main); font-weight: 600; }
@@ -118,20 +178,31 @@
 </head>
 <body>
 
+    <header class="main-header">
+        <h1>Divinity Tier List</h1>
+        <div class="subtext">
+            <span>Created by Kephralis / Synix</span>
+            <span class="divider">•</span>
+            <span>Updated: March 28, 2026</span>
+        </div>
+    </header>
+
     <div class="board-wrapper">
         <div class="board-container" id="leaderboard"></div>
     </div>
 
-    <div class="board-footer">
+    <footer class="board-footer">
         <p>All players who appear on this tier list have been in a 1v1 with me.</p>
         <p>See <span class="score-highlight">{score}</span> for more information.</p>
         <p>Player skill level measurement is based on score, strategy and how easy or hard it is to win against the player.</p>
         <p>The order of players from top to bottom is not relevant.</p>
-    </div>
+    </footer>
 
     <script>
         const data = {
-            "Actually Good": [{ name: "Kephralis", rank: "high", img: "https://raw.githubusercontent.com/Kephralis/website/refs/heads/main/images/sy.png" }],
+            "Actually Good": [
+                { name: "Kephralis", rank: "high", img: "https://raw.githubusercontent.com/Kephralis/website/refs/heads/main/images/sy.png" }
+            ],
             "Decent": [
                 { name: "Mr Binzy", rank: "high", img: "https://raw.githubusercontent.com/Kephralis/website/refs/heads/main/images/bnz.png" },
                 { name: "BisonJaguar", rank: "high", img: "https://raw.githubusercontent.com/Kephralis/website/refs/heads/main/images/bj.png" },
@@ -175,12 +246,26 @@
             Object.keys(data).forEach((tier, index) => {
                 const tierDiv = document.createElement('div');
                 tierDiv.className = `tier-column tier-${index + 1}`;
+                
                 let playersHtml = data[tier].map(p => {
                     const iconName = p.rank === "high" ? "north" : "south";
-                    return `<div class="player-row rank-${p.rank}"><img src="${p.img}" class="avatar" alt="${p.name}"><div class="username">${p.name}</div><span class="material-symbols-outlined rank-icon">${iconName}</span></div>`;
+                    return `
+                        <div class="player-row rank-${p.rank}">
+                            <img src="${p.img}" class="avatar" alt="${p.name}">
+                            <div class="username">${p.name}</div>
+                            <span class="material-symbols-outlined rank-icon">${iconName}</span>
+                        </div>
+                    `;
                 }).join('');
+
                 const headerIcon = tierIcons[tier] || "";
-                tierDiv.innerHTML = `<div class="tier-header"><span class="material-symbols-outlined">${headerIcon}</span>${tier}</div><div class="player-list">${playersHtml}</div>`;
+                tierDiv.innerHTML = `
+                    <div class="tier-header">
+                        <span class="material-symbols-outlined">${headerIcon}</span>
+                        ${tier}
+                    </div>
+                    <div class="player-list">${playersHtml}</div>
+                `;
                 container.appendChild(tierDiv);
             });
         }
