@@ -40,19 +40,9 @@
             padding-bottom: 24px;
         }
 
-        /* --- Scrollbar --- */
-        .board-wrapper::-webkit-scrollbar {
-            height: 12px;
-        }
-        .board-wrapper::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.02);
-            border-radius: 10px;
-        }
-        .board-wrapper::-webkit-scrollbar-thumb {
-            background: #30363d;
-            border-radius: 10px;
-            border: 3px solid var(--bg-body);
-        }
+        .board-wrapper::-webkit-scrollbar { height: 12px; }
+        .board-wrapper::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.02); border-radius: 10px; }
+        .board-wrapper::-webkit-scrollbar-thumb { background: #30363d; border-radius: 10px; border: 3px solid var(--bg-body); }
 
         .board-container {
             display: grid;
@@ -63,12 +53,8 @@
             margin: 0 auto;
         }
 
-        .tier-column {
-            background-color: transparent;
-            height: fit-content;
-        }
+        .tier-column { background-color: transparent; height: fit-content; }
 
-        /* --- Tier Headers --- */
         .tier-header {
             padding: 20px 14px;
             text-align: center;
@@ -80,16 +66,12 @@
             gap: 12px;
             text-transform: capitalize;
             letter-spacing: -0.03em;
-            
             margin-bottom: 6px; 
             border-radius: 6px;
             border: 1px solid #30363d;
         }
 
-        .tier-header .material-symbols-outlined {
-            font-size: 32px;
-            font-variation-settings: 'wght' 400;
-        }
+        .tier-header .material-symbols-outlined { font-size: 32px; font-variation-settings: 'wght' 400; }
 
         .tier-1 .tier-header { color: #a3e635; background: linear-gradient(to bottom, rgba(163, 230, 53, 0.2), var(--bg-card)); }
         .tier-2 .tier-header { color: #facc15; background: linear-gradient(to bottom, rgba(250, 204, 21, 0.2), var(--bg-card)); }
@@ -98,56 +80,39 @@
         .tier-5 .tier-header { color: #a87956; background: linear-gradient(to bottom, rgba(168, 121, 86, 0.25), var(--bg-card)); }
         .tier-6 .tier-header { color: #8b949e; background: linear-gradient(to bottom, rgba(139, 148, 158, 0.2), var(--bg-card)); }
 
-        /* --- Fixed Sub-Pixel Spacing via Parent Flex Gap --- */
-        .player-list {
-            display: flex;
-            flex-direction: column;
-            gap: 4px; 
-        }
+        .player-list { display: flex; flex-direction: column; gap: 4px; }
 
-        /* --- Player Rows --- */
         .player-row {
             display: grid;
             grid-template-columns: 26px 1fr auto; 
             align-items: center;
             gap: 8px;
             padding: 3px 10px;
-            
-            /* Margin removed to prevent sub-pixel rounding errors */
             border-radius: 5px;
             border: 1px solid #21262d;
             transition: transform 0.1s ease;
         }
 
-        .player-row:hover {
-            transform: scale(1.02);
-        }
-
+        .player-row:hover { transform: scale(1.02); }
         .player-row.rank-high { background-color: var(--bg-row-high); }
         .player-row.rank-low { background-color: var(--bg-row-low); opacity: 0.95; }
 
-        .avatar {
-            width: 26px;
-            height: 26px;
-            border-radius: 3px;
-            background: #30363d;
-            object-fit: cover;
-        }
-
-        .username {
-            font-size: 0.8rem;
-            font-weight: 500;
-            line-height: 1;
-        }
-
-        .rank-icon {
-            font-size: 16px !important;
-            font-variation-settings: 'wght' 600; 
-            user-select: none;
-        }
-
+        .avatar { width: 26px; height: 26px; border-radius: 3px; background: #30363d; object-fit: cover; }
+        .username { font-size: 0.8rem; font-weight: 500; line-height: 1; }
+        .rank-icon { font-size: 16px !important; font-variation-settings: 'wght' 600; user-select: none; }
         .rank-high .rank-icon { color: #238636; }
         .rank-low .rank-icon { color: #da3633; }
+
+        /* --- New Footer Styling --- */
+        .board-footer {
+            margin-top: 32px;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            line-height: 1.6;
+            max-width: 900px;
+        }
+        .board-footer p { margin-bottom: 2px; }
+        .score-highlight { color: var(--text-main); font-weight: 600; }
 
     </style>
 </head>
@@ -155,6 +120,13 @@
 
     <div class="board-wrapper">
         <div class="board-container" id="leaderboard"></div>
+    </div>
+
+    <div class="board-footer">
+        <p>All players who appear on this tier list have been in a 1v1 with me.</p>
+        <p>See <span class="score-highlight">{score}</span> for more information.</p>
+        <p>Player skill level measurement is based on score, strategy and how easy or hard it is to win against the player.</p>
+        <p>The order of players from top to bottom is not relevant.</p>
     </div>
 
     <script>
@@ -194,12 +166,8 @@
         };
 
         const tierIcons = {
-            "Actually Good": "crown",
-            "Decent": "kid_star",
-            "Mid": "sentiment_neutral",
-            "Below Average": "trending_down",
-            "Trash": "delete",
-            "Cheating": "accessible_forward"
+            "Actually Good": "crown", "Decent": "kid_star", "Mid": "sentiment_neutral",
+            "Below Average": "trending_down", "Trash": "delete", "Cheating": "accessible_forward"
         };
 
         function render() {
@@ -207,26 +175,12 @@
             Object.keys(data).forEach((tier, index) => {
                 const tierDiv = document.createElement('div');
                 tierDiv.className = `tier-column tier-${index + 1}`;
-                
                 let playersHtml = data[tier].map(p => {
                     const iconName = p.rank === "high" ? "north" : "south";
-                    return `
-                        <div class="player-row rank-${p.rank}">
-                            <img src="${p.img}" class="avatar" alt="${p.name}">
-                            <div class="username">${p.name}</div>
-                            <span class="material-symbols-outlined rank-icon">${iconName}</span>
-                        </div>
-                    `;
+                    return `<div class="player-row rank-${p.rank}"><img src="${p.img}" class="avatar" alt="${p.name}"><div class="username">${p.name}</div><span class="material-symbols-outlined rank-icon">${iconName}</span></div>`;
                 }).join('');
-
                 const headerIcon = tierIcons[tier] || "";
-                tierDiv.innerHTML = `
-                    <div class="tier-header">
-                        <span class="material-symbols-outlined">${headerIcon}</span>
-                        ${tier}
-                    </div>
-                    <div class="player-list">${playersHtml}</div>
-                `;
+                tierDiv.innerHTML = `<div class="tier-header"><span class="material-symbols-outlined">${headerIcon}</span>${tier}</div><div class="player-list">${playersHtml}</div>`;
                 container.appendChild(tierDiv);
             });
         }
