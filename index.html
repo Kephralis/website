@@ -1,1 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gamer Leaderboard</title>
+    <style>
+        /* =========================================
+           1. Global Styles & Theme
+           ========================================= */
+        body {
+            background-color: #1e2025; /* Main dark background */
+            color: #ffffff; /* Default text color */
+            font-family: 'Montserrat', sans-serif, Arial; /* Clean gaming font stack */
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center; /* Center the leaderboard */
+            align-items: start;
+            min-height: 100vh;
+            padding: 20px; /* Add some space around the container */
+            box-sizing: border-box;
+        }
 
+        /* Leaderboard Container */
+        .leaderboard-container {
+            width: 100%;
+            max-width: 1400px; /* Set a reasonable maximum width for desktop */
+            margin: 0 auto;
+        }
+
+        /* =========================================
+           2. Leaderboard Structure (Tiers)
+           ========================================= */
+        /* Flex container for the 5 Tier columns */
+        .tier-columns {
+            display: flex;
+            flex-direction: row; /* Desktop: Columns are side-by-side */
+            gap: 15px; /* Spacing between columns */
+            width: 100%;
+        }
+
+        /* Individual Tier Column */
+        .tier-column {
+            flex: 1; /* Allow columns to grow and shrink equally */
+            background-color: #2b2e35; /* Header and base column background */
+            border-radius: 8px; /* Rounded corners for the entire column base */
+            overflow: hidden; /* For border-radius on content */
+            display: flex;
+            flex-direction: column;
+            border: 1px solid #3a3f4a; /* Add a subtle border */
+        }
+
+        /* =========================================
+           3. Tier Headers
+           ========================================= */
+        .tier-header {
+            display: flex;
+            align-items: center;
+            justify-content: start;
+            padding: 12px 15px;
+            font-weight: 700;
+            font-size: 1.2rem;
+            letter-spacing: 0.5px;
+            text-transform: capitalize; /* Or use text directly */
+        }
+
+        /* Icon styling in the header */
+        .tier-header .tier-icon {
+            font-size: 1.5rem;
+            margin-right: 12px;
+        }
+
+        /* Unique styling for each Tier Header */
+        /* Tier 1 - Gold */
+        .tier-1 .tier-header {
+            background-color: #31333c; /* Slightly darker than main column */
+            color: #e5b746; /* Gold text */
+        }
+        .tier-1 .tier-icon::before { content: "🏆"; } /* Place a trophy here. Use an <img> or FontAwesome for real icons */
+
+        /* Tier 2 - Silver */
+        .tier-2 .tier-header {
+            background-color: #31333c;
+            color: #a7adb8; /* Silver text */
+        }
+        .tier-2 .tier-icon::before { content: "🥈"; }
+
+        /* Tier 3 - Bronze */
+        .tier-3 .tier-header {
+            background-color: #31333c;
+            color: #b5814e; /* Bronze text */
+        }
+        .tier-3 .tier-icon::before { content: "🥉"; }
+
+        /* Tiers 4 and 5 - Neutral Grey */
+        .tier-4 .tier-header,
+        .tier-5 .tier-header {
+            background-color: #31333c;
+            color: #a7adb8; /* Grey text */
+        }
+        .tier-4 .tier-icon::before { content: "🏅"; } /* Place a different icon */
+        .tier-5 .tier-icon::before { content: "🏅"; }
+
+        /* =========================================
+           4. Player Content Area & Rows
+           ========================================= */
+        /* List for player rows */
+        .tier-player-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            flex-grow: 1; /* Make the list fill the remaining column height */
+        }
+
+        /* Individual Player Row Styling */
+        .player-row {
+            display: flex;
+            align-items: center;
+            padding: 10px 15px;
+            border-bottom: 1px solid #3a3f4a; /* Subtle line between players */
+            transition: background-color 0.2s ease; /* Hover effect */
+            background-color: #25282e; /* Darker grey for content rows */
+        }
+
+        /* Alternating row colors for better visibility */
+        .player-row:nth-child(even) {
+            background-color: #2b2e35;
+        }
+
+        /* Hover effect for a player row */
+        .player-row:hover {
+            background-color: #3a3f4a; /* Lighter background on hover */
+        }
+
+        /* Player Avatar */
+        .player-avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%; /* Circle avatar */
+            background-color: #4a4f5a; /* Placeholder avatar background */
+            margin-right: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: 700;
+            font-size: 0.8rem;
+            color: #a7adb8;
+            overflow: hidden; /* Contain img within circle */
+        }
+        
+        /* If you use an img in the avatar */
+        .player-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Player Name */
+        .player-name {
+            flex-grow: 1; /* Take up all available space */
+            font-size: 0.95rem;
+            color: #ffffff;
+            overflow: hidden; /* For long names */
+            text-overflow: ellipsis; /* ... on long names */
+            white-space: nowrap;
+        }
+
+        /* Rank Icon on the right (Double Up Arrow) */
+        .player-rank-icon {
+            color: #4a4f5a; /* Faint grey for the icon */
+            font-size: 1.1rem;
+            margin-left: 10px;
+        }
+        .player-rank-icon::before { content: "▲▲"; } /* Double up arrow symbol */
+
+        /* =========================================
+           5. Responsive Breakpoints
+           ========================================= */
+        /* When screen width is 1024px or less */
+        @media screen and (max-width: 1024px) {
+            .tier-columns {
+                flex-wrap: wrap; /* Columns can wrap to the next line */
+                gap: 10px;
+            }
+            .tier-column {
+                flex: 0 0 calc(33.333% - 10px); /* Stack 3 columns per row */
+            }
+        }
+
+        /* When screen width is 768px or less (Tablets & Landscape Mobile) */
+        @media screen and (max-width: 768px) {
+            .tier-column {
+                flex: 0 0 calc(50% - 10px); /* Stack 2 columns per row */
+            }
+        }
+
+        /* When screen width is 480px or less (Portrait Mobile) */
+        @media screen and (max-width: 480px) {
+            .tier-columns {
+                flex-direction: column; /* Stack all columns vertically */
+                gap: 20px;
+            }
+            .tier-column {
+                width: 100%; /* Columns take full width */
+                flex: auto; /* Reset flex-basis and flex-grow */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="leaderboard-container">
+        <div class="tier-columns">
+
+            <div class="tier-column tier-1">
+                <div class="tier-header">
+                    <span class="tier-icon"></span>
+                    Tier 1
+                </div>
+                <ul class="tier-player-list">
+                    <li class="player-row">
+                        <div class="player-avatar">K1</div>
+                        <span class="player-name">K1RBE</span>
+                        <span class="player-rank-icon"></span>
+                    </li>
+                    </ul>
+            </div>
+            <div class="tier-column tier-2">
+                <div class="tier-header">
+                    <span class="tier-icon"></span>
+                    Tier 2
+                </div>
+                <ul class="tier-player-list">
+                    <li class="player-row">
+                        <div class="player-avatar">Ca</div>
+                        <span class="player-name">Camcal</span>
+                        <span class="player-rank-icon"></span>
+                    </li>
+                    <li class="player-row">
+                        <div class="player-avatar">De</div>
+                        <span class="player-name">Demonmcc</span>
+                        <span class="player-rank-icon"></span>
+                    </li>
+                    <li class="player-row">
+                        <div class="player-avatar">Ki</div>
+                        <span class="player-name">KingD3fault</span>
+                        <span class="player-rank-icon"></span>
+                    </li>
+                    <li class="player-row">
+                        <div class="player-avatar">qP</div>
+                        <span class="player-name">qPower</span>
+                        <span class="player-rank-icon"></span>
+                    </li>
+                    <li class="player-row">
+                        <div class="player-avatar">To</div>
+                        <span class="player-name">Tokenu</span>
+                        <span class="player-rank-icon"></span>
+                    </li>
+                    <li class="player-row">
+                        <div class="player-avatar">cl</div>
+                        <span class="player-name">cloudmlol</span>
+                        <span class="player-rank-icon"></span>
+                    </li>
+                </ul>
+            </div>
+            <div class="tier-column tier-3">
+                <div class="tier-header">
+                    <span class="tier-icon"></span>
+                    Tier 3
+                </div>
+                <ul class="tier-player-list">
+                    <li class="player-row">
+                        <div class="player-avatar">ja</div>
+                        <span class="player-name">jayckuuub</span>
+                        <span class="player-rank-icon"></span>
+                    </li>
+                    <li class="player-row">
+                        <div class="player-avatar">It</div>
+                        <span class="player-name">ltzTerrel</span>
+                        <span class="player-rank-icon"></span>
+                    </li>
+                    <li class="player-row">
+                        <div class="player-avatar">th</div>
+                        <span class="player-name">thelastw1nter</span>
+                        <span class="player-rank-icon"></span>
+                    </li>
+                    <li class="player-row">
+                        <div class="player-avatar">is</div>
+                        <span class="player-name">isolatiion</span>
+                        <span class="player-rank-icon"></span>
+                    </li>
+                    <li class="player-row">
+                        <div class="player-avatar">No</div>
+                        <span class="player-name">NoLimitDash</span>
+                        <span class="player-rank-icon"></span>
+                    </li>
+                    <li class="player-row">
+                        <div class="player-avatar">ot</div>
+                        <span class="player-name">otbkibble</span>
+                        <span class="player-rank-icon"></span>
+                    </li>
+                </ul>
+            </div>
+            <div class="tier-column tier-4">
+                <div class="tier-header">
+                    <span class="tier-icon"></span>
+                    Tier 4
+                </div>
+                <ul class="tier-player-list">
+                    <li class="player-row">
+                        <div class="player-avatar">MP</div>
+                        <span class="player-name">MPI_YT</span>
+                        <span class="player-rank-icon"></span>
+                    </li>
+                    <li class="player-row">
+                        <div class="player-avatar">ch</div>
+                        <span class="player-name">chuypopis</span>
+                        <span class="player-rank-icon"></span>
+                    </li>
+                    <li class="player-row">
+                        <div class="player-avatar">tr</div>
+                        <span class="player-name">trayde_</span>
+                        <span class="player-rank-icon"></span>
+                    </li>
+                    <li class="player-row">
+                        <div class="player-avatar">8a</div>
+                        <span class="player-name">8amnNoticeMe</span>
+                        <span class="player-rank-icon"></span>
+                    </li>
+                    <li class="player-row">
+                        <div class="player-avatar">Sa</div>
+                        <span class="player-name">Sasukex7z</span>
+                        <span class="player-rank-icon"></span>
+                    </li>
+                    <li class="player-row">
+                        <div class="player-avatar">Th</div>
+                        <span class="player-name">TheSwe4ter</span>
+                        <span class="player-rank-icon"></span>
+                    </li>
+                </ul>
+            </div>
+            <div class="tier-column tier-5">
+                <div class="tier-header">
+                    <span class="tier-icon"></span>
+                    Tier 5
+                </div>
+                <ul class="tier-player-list">
+                    <li class="player-row">
+                        <div class="player-avatar">AL</div>
+                        <span class="player-name">ALIPROYT1</span>
+                        <span class="player-rank-icon"></span>
+                    </li>
+                    <li class="player-row">
+                        <div class="player-avatar">hi</div>
+                        <span class="player-name">hiadyman</span>
+                        <span class="player-rank-icon"></span>
+                    </li>
+                    <li class="player-row">
+                        <div class="player-avatar">ba</div>
+                        <span class="player-name">barbarthecrafter</span>
+                        <span class="player-rank-icon"></span>
+                    </li>
+                    <li class="player-row">
+                        <div class="player-avatar">Ce</div>
+                        <span class="player-name">Certified7399</span>
+                        <span class="player-rank-icon"></span>
+                    </li>
+                    <li class="player-row">
+                        <div class="player-avatar">Fl</div>
+                        <span class="player-name">FIERROSO1</span>
+                        <span class="player-rank-icon"></span>
+                    </li>
+                    <li class="player-row">
+                        <div class="player-avatar">Kh</div>
+                        <span class="player-name">Khromer</span>
+                        <span class="player-rank-icon"></span>
+                    </li>
+                </ul>
+            </div>
+            </div> </div> </body>
+</html>
