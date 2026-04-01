@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Leaderboard - Horizontal Scroll</title>
+    <title>Leaderboard - Final Template</title>
     
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap">
     
@@ -29,7 +29,6 @@
             font-family: 'Geist', sans-serif;
             background-color: var(--bg-body);
             color: var(--text-main);
-            /* Centering the container vertically but allowing horizontal overflow */
             display: flex;
             flex-direction: column;
             min-height: 100vh;
@@ -39,21 +38,22 @@
         /* --- Scrollable Wrapper --- */
         .board-wrapper {
             width: 100%;
-            overflow-x: auto; /* This enables the horizontal scroll */
-            padding-bottom: 20px; /* Space for the scrollbar */
-            cursor: grab; /* Visual hint for scrollable area */
+            overflow-x: auto;
+            padding-bottom: 24px; /* More space for the larger scrollbar */
         }
 
-        /* Custom Scrollbar Styling */
+        /* Widened Scrollbar for easier interaction */
         .board-wrapper::-webkit-scrollbar {
-            height: 8px;
+            height: 16px; /* Larger height makes it much easier to click and drag */
         }
         .board-wrapper::-webkit-scrollbar-track {
-            background: var(--bg-body);
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 10px;
         }
         .board-wrapper::-webkit-scrollbar-thumb {
             background: #30363d;
             border-radius: 10px;
+            border: 3px solid var(--bg-body); /* Creates a "floating" effect */
         }
         .board-wrapper::-webkit-scrollbar-thumb:hover {
             background: #484f58;
@@ -62,10 +62,8 @@
         /* --- Grid Layout (Fixed 5 Columns) --- */
         .board-container {
             display: grid;
-            /* Forces exactly 5 columns with a minimum width of 280px each */
             grid-template-columns: repeat(5, minmax(280px, 1fr));
             gap: 12px;
-            /* Ensures the container expands to fit all columns side-by-side */
             width: max-content; 
             min-width: 100%;
             margin: 0 auto;
@@ -121,13 +119,14 @@
             gap: 10px;
             padding: 8px 12px;
             border-bottom: 1px solid #21262d;
-            transition: background-color 0.2s;
+            transition: background-color 0.15s ease;
         }
 
         .player-row:hover {
-            filter: brightness(1.1);
+            filter: brightness(1.15);
         }
 
+        /* High vs Low Styling (Tier 1 now uses high background by default) */
         .player-row.rank-high { background-color: var(--bg-row-high); }
         .player-row.rank-low { background-color: var(--bg-row-low); opacity: 0.95; }
 
@@ -161,8 +160,6 @@
 
         .rank-high .arrows::before { content: '▲'; }
         .arrows::after { content: '▲'; }
-        
-        .tier-1 .player-row { background-color: rgba(163, 230, 53, 0.03); }
 
     </style>
 </head>
