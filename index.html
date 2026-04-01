@@ -15,7 +15,7 @@
             --bg-row-high: #1c2128;
             --bg-row-low: #13171d;
             --text-main: #ffffff;
-            --border-color: #30363d;
+            --text-muted: #7d8590;
         }
 
         * {
@@ -28,6 +28,8 @@
             font-family: 'Geist', sans-serif;
             background-color: var(--bg-body);
             color: var(--text-main);
+            display: flex;
+            flex-direction: column;
             min-height: 100vh;
             padding: 2rem;
         }
@@ -38,23 +40,35 @@
             padding-bottom: 24px;
         }
 
+        .board-wrapper::-webkit-scrollbar {
+            height: 12px;
+        }
+        .board-wrapper::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 10px;
+        }
+        .board-wrapper::-webkit-scrollbar-thumb {
+            background: #30363d;
+            border-radius: 10px;
+            border: 3px solid var(--bg-body);
+        }
+
         .board-container {
             display: grid;
             grid-template-columns: repeat(6, minmax(260px, 1fr));
-            gap: 12px;
+            gap: 10px;
             width: max-content; 
             min-width: 100%;
             margin: 0 auto;
         }
 
         .tier-column {
-            display: flex;
-            flex-direction: column;
+            /* Removed background and border from container to allow disconnection */
+            background-color: transparent;
             height: fit-content;
-            /* Removed background and border from here */
         }
 
-        /* --- Floating Tier Headers --- */
+        /* --- Disconnected Headers --- */
         .tier-header {
             padding: 12px 10px;
             text-align: center;
@@ -67,11 +81,10 @@
             text-transform: capitalize;
             letter-spacing: -0.02em;
             
-            /* The floating effect */
-            background-color: var(--bg-card);
-            border: 1px solid var(--border-color);
+            /* Added margin and individual rounding */
+            margin-bottom: 4px; 
             border-radius: 6px;
-            margin-bottom: 6px; /* The "tiny gap" */
+            border: 1px solid #30363d;
         }
 
         .tier-header .material-symbols-outlined {
@@ -86,23 +99,28 @@
         .tier-5 .tier-header { color: #a87956; background: linear-gradient(to bottom, rgba(168, 121, 86, 0.25), var(--bg-card)); }
         .tier-6 .tier-header { color: #8b949e; background: linear-gradient(to bottom, rgba(139, 148, 158, 0.2), var(--bg-card)); }
 
-        /* --- Floating Player Rows --- */
+        /* --- Disconnected Player Rows --- */
         .player-row {
             display: grid;
             grid-template-columns: 32px 1fr auto; 
             align-items: center;
             gap: 10px;
             padding: 6px 12px;
-            transition: transform 0.1s ease;
             
-            /* The floating effect */
-            border: 1px solid var(--border-color);
+            /* Added margin and individual rounding */
+            margin-bottom: 4px;
             border-radius: 6px;
-            margin-bottom: 4px; /* The "tiny gap" between players */
+            border: 1px solid #21262d;
+            transition: transform 0.1s ease;
         }
 
+        .player-row:hover {
+            transform: scale(1.02); /* Subtle hover effect since they are floating now */
+        }
+
+        /* Specific row backgrounds */
         .player-row.rank-high { background-color: var(--bg-row-high); }
-        .player-row.rank-low { background-color: var(--bg-row-low); }
+        .player-row.rank-low { background-color: var(--bg-row-low); opacity: 0.95; }
 
         .avatar {
             width: 32px;
@@ -203,7 +221,7 @@
                         <span class="material-symbols-outlined">${headerIcon}</span>
                         ${tier}
                     </div>
-                    ${playersHtml}
+                    <div class="player-list">${playersHtml}</div>
                 `;
                 container.appendChild(tierDiv);
             });
