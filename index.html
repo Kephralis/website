@@ -41,7 +41,7 @@
         }
 
         .board-wrapper::-webkit-scrollbar {
-            height: 16px;
+            height: 12px;
         }
         .board-wrapper::-webkit-scrollbar-track {
             background: rgba(255, 255, 255, 0.02);
@@ -52,15 +52,11 @@
             border-radius: 10px;
             border: 3px solid var(--bg-body);
         }
-        .board-wrapper::-webkit-scrollbar-thumb:hover {
-            background: #484f58;
-        }
 
         .board-container {
-            /* Updated to 6 columns to accommodate the new tier */
             display: grid;
-            grid-template-columns: repeat(6, minmax(280px, 1fr));
-            gap: 12px;
+            grid-template-columns: repeat(6, minmax(260px, 1fr));
+            gap: 10px; /* Reduced gap from 12px to 10px */
             width: max-content; 
             min-width: 100%;
             margin: 0 auto;
@@ -74,22 +70,23 @@
             height: fit-content;
         }
 
+        /* --- Compact Headers --- */
         .tier-header {
-            padding: 18px 14px;
+            padding: 12px 10px; /* Reduced from 18px 14px */
             text-align: center;
             font-weight: 800;
-            font-size: 1.35rem;
+            font-size: 1.2rem; /* Slightly smaller to fit compact look */
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
+            gap: 8px;
             border-bottom: 1px solid #30363d;
             text-transform: capitalize;
             letter-spacing: -0.02em;
         }
 
         .tier-header .material-symbols-outlined {
-            font-size: 24px;
+            font-size: 20px; /* Reduced from 24px */
             font-variation-settings: 'wght' 400;
         }
 
@@ -98,15 +95,15 @@
         .tier-3 .tier-header { color: #fb923c; background: linear-gradient(to bottom, rgba(251, 146, 60, 0.2), transparent); }
         .tier-4 .tier-header { color: #f87171; background: linear-gradient(to bottom, rgba(248, 113, 113, 0.2), transparent); }
         .tier-5 .tier-header { color: #a87956; background: linear-gradient(to bottom, rgba(168, 121, 86, 0.25), transparent); }
-        /* New Cheating Tier Style */
         .tier-6 .tier-header { color: #8b949e; background: linear-gradient(to bottom, rgba(139, 148, 158, 0.2), transparent); }
 
+        /* --- Compact Player Rows --- */
         .player-row {
             display: grid;
             grid-template-columns: 32px 1fr auto; 
             align-items: center;
-            gap: 12px;
-            padding: 10px 16px;
+            gap: 10px;
+            padding: 6px 12px; /* Reduced vertical padding from 10px to 6px */
             border-bottom: 1px solid #21262d;
             transition: background-color 0.15s ease;
         }
@@ -115,7 +112,7 @@
         .player-row.rank-low { background-color: var(--bg-row-low); opacity: 0.95; }
 
         .avatar {
-            width: 32px;
+            width: 32px; /* Kept original size */
             height: 32px;
             border-radius: 4px;
             background: #30363d;
@@ -123,12 +120,13 @@
         }
 
         .username {
-            font-size: 0.9rem;
+            font-size: 0.85rem; /* Slightly smaller font */
             font-weight: 500;
+            line-height: 1; /* Tightens text box */
         }
 
         .rank-icon {
-            font-size: 20px !important;
+            font-size: 18px !important;
             font-variation-settings: 'wght' 600; 
             user-select: none;
         }
@@ -175,7 +173,6 @@
                 { name: "PlaceholderUsername", rank: "high", img: "https://raw.githubusercontent.com/Kephralis/website/refs/heads/main/images/phold.png" },
                 { name: "PlaceholderUsername2", rank: "low", img: "https://raw.githubusercontent.com/Kephralis/website/refs/heads/main/images/phold.png" }
             ],
-            // Added Cheating Tier
             "Cheating": [
                 { name: "PlaceholderUsername3", rank: "low", img: "https://raw.githubusercontent.com/Kephralis/website/refs/heads/main/images/phold.png" }
             ]
