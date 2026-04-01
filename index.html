@@ -67,16 +67,16 @@
             height: fit-content;
         }
 
-        /* --- Updated Larger/Longer Headers --- */
+        /* --- Disconnected Headers (Kept As-Is) --- */
         .tier-header {
-            padding: 20px 14px; /* Increased vertical padding for "longer" look */
+            padding: 20px 14px;
             text-align: center;
             font-weight: 800;
-            font-size: 1.5rem; /* Increased text size */
+            font-size: 1.5rem;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 12px; /* Slightly more gap for larger icons */
+            gap: 12px;
             text-transform: capitalize;
             letter-spacing: -0.03em;
             
@@ -86,7 +86,7 @@
         }
 
         .tier-header .material-symbols-outlined {
-            font-size: 32px; /* Increased symbol size */
+            font-size: 32px;
             font-variation-settings: 'wght' 400;
         }
 
@@ -97,15 +97,17 @@
         .tier-5 .tier-header { color: #a87956; background: linear-gradient(to bottom, rgba(168, 121, 86, 0.25), var(--bg-card)); }
         .tier-6 .tier-header { color: #8b949e; background: linear-gradient(to bottom, rgba(139, 148, 158, 0.2), var(--bg-card)); }
 
-        /* --- Disconnected Player Rows --- */
+        /* --- Compact Disconnected Player Rows --- */
         .player-row {
             display: grid;
-            grid-template-columns: 32px 1fr auto; 
+            /* Updated for slightly tighter layout with smaller avatar */
+            grid-template-columns: 26px 1fr auto; 
             align-items: center;
-            gap: 10px;
-            padding: 6px 12px;
-            margin-bottom: 4px;
-            border-radius: 6px;
+            gap: 8px; /* Reduced gap */
+            padding: 3px 10px; /* Highly compact vertical padding */
+            
+            margin-bottom: 3px; /* Reduced vertical gap between rows */
+            border-radius: 5px; /* Slightly tighter rounding */
             border: 1px solid #21262d;
             transition: transform 0.1s ease;
         }
@@ -114,25 +116,26 @@
             transform: scale(1.02);
         }
 
+        /* Specific row backgrounds */
         .player-row.rank-high { background-color: var(--bg-row-high); }
         .player-row.rank-low { background-color: var(--bg-row-low); opacity: 0.95; }
 
         .avatar {
-            width: 32px;
-            height: 32px;
-            border-radius: 4px;
+            width: 26px; /* Scaled down avatar size */
+            height: 26px;
+            border-radius: 3px; /* Proportionally tighter rounding */
             background: #30363d;
             object-fit: cover;
         }
 
         .username {
-            font-size: 0.85rem;
+            font-size: 0.8rem; /* Scaled down font size */
             font-weight: 500;
             line-height: 1;
         }
 
         .rank-icon {
-            font-size: 18px !important;
+            font-size: 16px !important; /* Scaled down rank icon */
             font-variation-settings: 'wght' 600; 
             user-select: none;
         }
