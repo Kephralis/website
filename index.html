@@ -91,7 +91,6 @@
         .tier-2 .tier-header { color: #facc15; background: linear-gradient(to bottom, rgba(250, 204, 21, 0.2), var(--bg-card)); }
         .tier-3 .tier-header { color: #fb923c; background: linear-gradient(to bottom, rgba(251, 146, 60, 0.2), var(--bg-card)); }
         .tier-4 .tier-header { color: #f87171; background: linear-gradient(to bottom, rgba(248, 113, 113, 0.2), var(--bg-card)); }
-        /* Gradients for Trash and Cheating */
         .tier-5 .tier-header { color: #a87956; background: linear-gradient(to bottom, rgba(168, 121, 86, 0.25), var(--bg-card)); }
         .tier-6 .tier-header { color: #8b949e; background: linear-gradient(to bottom, rgba(139, 148, 158, 0.2), var(--bg-card)); }
 
@@ -161,7 +160,7 @@
         
         #modal-tier-indicator-wrapper {
             display: flex;
-            justify(content: center;
+            justify-content: center;
             margin-bottom: 20px;
         }
         
@@ -291,7 +290,6 @@
 
         const playerTierInfo = {};
 
-        // RGB values for modal gradients
         const modalTierColorsRGB = {
             "Actually Good": [163, 230, 53], "Decent": [250, 204, 21], "Mid": [251, 146, 60],
             "Below Average": [248, 113, 113], "Trash": [168, 121, 86], "Cheating": [139, 148, 158]
@@ -323,10 +321,9 @@
             document.getElementById('modal-tier-text').innerText = tierName;
             document.getElementById('modal-tier-icon').innerText = iconName;
             
-            // Set Dynamic Modal Gradient (More opaque/intense, focused on top)
             const colorRgbStr = `${rgb[0]}, ${rgb[1]}, ${rgb[2]}`;
-            // Changed opacity from 0.15 to 0.35, added color stops at 0%, 20%, 60%
-            const gradient = `linear-gradient(to bottom, rgba(${colorRgbStr}, 0.35) 0%, rgba(${colorRgbStr}, 0.35) 20%, var(--bg-card) 60%)`;
+            // Changed: increased opacity to 0.4 and added stop at 40% to focus on upper part
+            const gradient = `linear-gradient(to bottom, rgba(${colorRgbStr}, 0.4) 0%, var(--bg-card) 40%)`;
             document.getElementById('modalOverlay').querySelector('.modal-content').style.background = gradient;
 
             document.getElementById('modal-description').innerText = detail.desc;
