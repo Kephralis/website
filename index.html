@@ -133,17 +133,17 @@
         }
 
         .modal-content {
-            /* Changed to transparent RGBA and added blur */
-            background: rgba(22, 27, 34, 0.75);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(48, 54, 61, 0.8);
+            /* Transparency increased to 0.4 and blur increased to 24px */
+            background: rgba(22, 27, 34, 0.4); 
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(48, 54, 61, 0.6);
             border-radius: 12px;
             width: 100%;
             max-width: 450px;
             padding: 32px;
             position: relative;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.6);
             text-align: center;
             transition: background 0.3s ease;
         }
@@ -158,17 +158,17 @@
         .close-btn:hover { color: #fff; }
 
         #modal-username { font-size: 2rem; font-weight: 800; margin-bottom: 20px; letter-spacing: -0.02em; }
-        #modal-img { width: 120px; height: 120px; border-radius: 12px; margin-bottom: 12px; border: 2px solid rgba(48, 54, 61, 0.8); object-fit: cover; }
+        #modal-img { width: 120px; height: 120px; border-radius: 12px; margin-bottom: 12px; border: 2px solid rgba(48, 54, 61, 0.5); object-fit: cover; }
         
         #modal-tier-indicator-wrapper {
             display: flex;
             justify-content: center;
-            gap: 10px; /* Spacing between tags */
+            gap: 10px;
             margin-bottom: 20px;
         }
         
         .modal-tier-tag {
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0.6);
             border: 1px solid rgba(48, 54, 61, 0.8);
             padding: 6px 14px;
             border-radius: 20px;
@@ -183,8 +183,6 @@
         }
         
         .modal-tier-tag span.material-symbols-outlined { font-size: 18px; font-variation-settings: 'wght' 400; }
-
-        /* Specific style to make sure the rank icon feels bold */
         #modal-rank-icon { font-variation-settings: 'wght' 600; font-size: 20px; }
 
         .modal-section { text-align: left; margin-top: 24px; }
@@ -223,7 +221,7 @@
     </footer>
 
     <div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
-        <div class="modal-content" onclick="event.stopPropagation()">
+        <div class="modal-content" id="modal-container" onclick="event.stopPropagation()">
             <span class="material-symbols-outlined close-btn" onclick="closeModal()">close</span>
             <h2 id="modal-username">Username</h2>
             <img id="modal-img" src="" alt="Player Avatar">
@@ -327,17 +325,16 @@
             document.getElementById('modal-username').innerText = name;
             document.getElementById('modal-img').src = img;
             
-            // --- Tier Tag ---
+            // Tier Tag
             const tierTag = document.getElementById('modal-tier-indicator');
             const tierColorStr = `rgb(${rgb[0]}, ${rgb[1]}, ${rgb[2]})`;
             tierTag.style.color = tierColorStr; 
             document.getElementById('modal-tier-text').innerText = tierName;
             document.getElementById('modal-tier-icon').innerText = iconName;
             
-            // --- Rank Arrow Tag ---
+            // Rank Tag
             const rankTag = document.getElementById('modal-rank-indicator');
             const rankIcon = document.getElementById('modal-rank-icon');
-            
             if (rank === "high" || rank === "low") {
                 rankTag.style.display = "flex";
                 rankIcon.innerText = rank === "high" ? "north" : "south";
@@ -346,13 +343,14 @@
                 rankTag.style.display = "none";
             }
             
-            // --- Dynamic Gradient & Blur ---
+            // Updated Gradient Logic:
+            // Tier color starts at 0.25 opacity.
+            // Fades into a more transparent background color (0.4 opacity) at 65% height.
             const colorRgbStr = `${rgb[0]}, ${rgb[1]}, ${rgb[2]}`;
-            // Stretches to 65%, lowers intensity to 0.25, and blends into transparent background
-            const gradient = `linear-gradient(to bottom, rgba(${colorRgbStr}, 0.25) 0%, rgba(22, 27, 34, 0.75) 65%)`;
-            document.getElementById('modalOverlay').querySelector('.modal-content').style.background = gradient;
+            const gradient = `linear-gradient(to bottom, rgba(${colorRgbStr}, 0.25) 0%, rgba(22, 27, 34, 0.4) 65%)`;
+            document.getElementById('modal-container').style.background = gradient;
 
-            // --- Details ---
+            // Text content
             document.getElementById('modal-description').innerText = detail.desc;
             document.getElementById('modal-strengths').innerText = detail.strengths;
             document.getElementById('modal-weaknesses').innerText = detail.weaknesses;
@@ -379,10 +377,8 @@
                 tierDiv.className = `tier-column tier-${index + 1}`;
                 
                 let playersHtml = data[tier].map(p => {
-                    // Populate lookup maps
                     playerTierInfo[p.name] = tier;
                     playerRankInfo[p.name] = p.rank;
-                    
                     const isRankless = (tier === "Trash" || tier === "Cheating");
                     const currentRankClass = isRankless ? "rank-none" : `rank-${p.rank}`;
                     const iconHtml = isRankless ? '' : `<span class="material-symbols-outlined rank-icon">${p.rank === "high" ? "north" : "south"}</span>`;
