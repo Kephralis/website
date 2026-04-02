@@ -86,10 +86,12 @@
 
         .tier-header .material-symbols-outlined { font-size: 32px; font-variation-settings: 'wght' 400; }
 
+        /* --- Tier Specific Gradients --- */
         .tier-1 .tier-header { color: #a3e635; background: linear-gradient(to bottom, rgba(163, 230, 53, 0.2), var(--bg-card)); }
         .tier-2 .tier-header { color: #facc15; background: linear-gradient(to bottom, rgba(250, 204, 21, 0.2), var(--bg-card)); }
         .tier-3 .tier-header { color: #fb923c; background: linear-gradient(to bottom, rgba(251, 146, 60, 0.2), var(--bg-card)); }
         .tier-4 .tier-header { color: #f87171; background: linear-gradient(to bottom, rgba(248, 113, 113, 0.2), var(--bg-card)); }
+        /* Gradients for Trash and Cheating */
         .tier-5 .tier-header { color: #a87956; background: linear-gradient(to bottom, rgba(168, 121, 86, 0.25), var(--bg-card)); }
         .tier-6 .tier-header { color: #8b949e; background: linear-gradient(to bottom, rgba(139, 148, 158, 0.2), var(--bg-card)); }
 
@@ -142,8 +144,7 @@
             position: relative;
             box-shadow: 0 20px 50px rgba(0,0,0,0.5);
             text-align: center;
-            /* Subtler fade for the background itself as gradients change dynamically */
-            transition: background 0.15s ease-out; 
+            transition: background 0.3s ease;
         }
 
         .close-btn {
@@ -290,6 +291,7 @@
 
         const playerTierInfo = {};
 
+        // RGB values for modal gradients
         const modalTierColorsRGB = {
             "Actually Good": [163, 230, 53], "Decent": [250, 204, 21], "Mid": [251, 146, 60],
             "Below Average": [248, 113, 113], "Trash": [168, 121, 86], "Cheating": [139, 148, 158]
@@ -321,11 +323,10 @@
             document.getElementById('modal-tier-text').innerText = tierName;
             document.getElementById('modal-tier-icon').innerText = iconName;
             
+            // Set Dynamic Modal Gradient (More opaque/intense, focused on top)
             const colorRgbStr = `${rgb[0]}, ${rgb[1]}, ${rgb[2]}`;
-            // Dynamic Gradient Updates:
-            // 1. Increased opacity to 0.3 for more intensity.
-            // 2. Focused on top: Solid for first 20%, fades out quickly and is gone by 60%.
-            const gradient = `linear-gradient(to bottom, rgba(${colorRgbStr}, 0.3) 0%, rgba(${colorRgbStr}, 0.3) 20%, rgba(${colorRgbStr}, 0) 60%)`;
+            // Changed opacity from 0.15 to 0.35, added color stops at 0%, 20%, 60%
+            const gradient = `linear-gradient(to bottom, rgba(${colorRgbStr}, 0.35) 0%, rgba(${colorRgbStr}, 0.35) 20%, var(--bg-card) 60%)`;
             document.getElementById('modalOverlay').querySelector('.modal-content').style.background = gradient;
 
             document.getElementById('modal-description').innerText = detail.desc;
