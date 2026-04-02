@@ -142,6 +142,7 @@
             position: relative;
             box-shadow: 0 20px 50px rgba(0,0,0,0.5);
             text-align: center;
+            transition: background 0.3s ease;
         }
 
         .close-btn {
@@ -156,8 +157,31 @@
         #modal-username { font-size: 2rem; font-weight: 800; margin-bottom: 20px; letter-spacing: -0.02em; }
         #modal-img { width: 120px; height: 120px; border-radius: 12px; margin-bottom: 12px; border: 2px solid #30363d; object-fit: cover; }
         
-        /* New Tier Indicator Style */
-        #modal-tier-indicator { font-size: 0.95rem; font-weight: 700; margin-bottom: 18px; text-transform: uppercase; letter-spacing: 0.1em; }
+        /* --- Tier Identifier Tag Styling --- */
+        #modal-tier-indicator-wrapper {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        
+        .modal-tier-tag {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid #30363d;
+            padding: 6px 14px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            text-transform: capitalize;
+            letter-spacing: 0.02em;
+        }
+        
+        .modal-tier-tag span.material-symbols-outlined {
+            font-size: 18px;
+            font-variation-settings: 'wght' 400;
+        }
 
         .modal-section { text-align: left; margin-top: 24px; }
         .modal-section-title { font-size: 1rem; font-weight: 700; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); }
@@ -200,7 +224,12 @@
             <h2 id="modal-username">Username</h2>
             <img id="modal-img" src="" alt="Player Avatar">
             
-            <p id="modal-tier-indicator"></p>
+            <div id="modal-tier-indicator-wrapper">
+                <div class="modal-tier-tag" id="modal-tier-indicator">
+                    <span class="material-symbols-outlined" id="modal-tier-icon"></span>
+                    <span id="modal-tier-text">Unknown</span>
+                </div>
+            </div>
             
             <div class="modal-section" id="bio-section">
                 <div class="modal-section-content" id="modal-description"></div>
@@ -264,15 +293,10 @@
             "xosulow": { desc: "Known for suspicious movement and perfect tracking.", strengths: "Unnatural aim\nInstant reactions", weaknesses: "Very obvious hacks\nBan prone", alts: "" }
         };
 
-        // Tier info lookup, populated in render loop
+        // Tier lookup, populated in render loop
         const playerTierInfo = {};
 
-        // Base colors used for modal gradients and dynamic styling
-        const modalTierColors = {
-            "Actually Good": "#a3e635", "Decent": "#facc15", "Mid": "#fb923c",
-            "Below Average": "#f87171", "Trash": "#8b949e", "Cheating": "#8b949e"
-        };
-        // RGB values for dynamic RGBA gradient construction
+        // Colors used for modal gradients and dynamic tag styling
         const modalTierColorsRGB = {
             "Actually Good": [163, 230, 53], "Decent": [250, 204, 21], "Mid": [251, 146, 60],
             "Below Average": [248, 113, 113], "Trash": [139, 148, 158], "Cheating": [139, 148, 158]
@@ -291,20 +315,23 @@
                 alts: ""
             };
             const tierName = playerTierInfo[name] || "Unknown";
-            const tierColor = modalTierColors[tierName] || "#30363d";
+            const iconName = tierIcons[tierName] || "help";
             const rgb = modalTierColorsRGB[tierName] || [48, 54, 61];
             
             document.getElementById('modal-username').innerText = name;
             document.getElementById('modal-img').src = img;
             
-            // Set Dynamic Tier Indicator
-            const tierIndicator = document.getElementById('modal-tier-indicator');
-            tierIndicator.innerText = tierName;
-            tierIndicator.style.color = tierColor;
+            // Set Dynamic Tier Identifier Tag
+            const tierTag = document.getElementById('modal-tier-indicator');
+            const tierColorStr = `rgb(${rgb[0]}, ${rgb[1]}, ${rgb[2]})`;
             
-            // Set Dynamic Modal Gradient
+            tierTag.style.color = tierColorStr; // Set dynamic text/icon color
+            document.getElementById('modal-tier-text').innerText = tierName;
+            document.getElementById('modal-tier-icon').innerText = iconName;
+            
+            // Set Dynamic Modal Gradient (Subtler: lowered from 0.25 to 0.15 opacity)
             const colorRgbStr = `${rgb[0]}, ${rgb[1]}, ${rgb[2]}`;
-            const gradient = `linear-gradient(to bottom, rgba(${colorRgbStr}, 0.25), var(--bg-card))`;
+            const gradient = `linear-gradient(to bottom, rgba(${colorRgbStr}, 0.15), var(--bg-card))`;
             document.getElementById('modalOverlay').querySelector('.modal-content').style.background = gradient;
 
             document.getElementById('modal-description').innerText = detail.desc;
