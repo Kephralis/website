@@ -86,12 +86,10 @@
 
         .tier-header .material-symbols-outlined { font-size: 32px; font-variation-settings: 'wght' 400; }
 
-        /* --- Tier Specific Gradients --- */
         .tier-1 .tier-header { color: #a3e635; background: linear-gradient(to bottom, rgba(163, 230, 53, 0.2), var(--bg-card)); }
         .tier-2 .tier-header { color: #facc15; background: linear-gradient(to bottom, rgba(250, 204, 21, 0.2), var(--bg-card)); }
         .tier-3 .tier-header { color: #fb923c; background: linear-gradient(to bottom, rgba(251, 146, 60, 0.2), var(--bg-card)); }
         .tier-4 .tier-header { color: #f87171; background: linear-gradient(to bottom, rgba(248, 113, 113, 0.2), var(--bg-card)); }
-        /* Added gradients for Trash and Cheating */
         .tier-5 .tier-header { color: #a87956; background: linear-gradient(to bottom, rgba(168, 121, 86, 0.25), var(--bg-card)); }
         .tier-6 .tier-header { color: #8b949e; background: linear-gradient(to bottom, rgba(139, 148, 158, 0.2), var(--bg-card)); }
 
@@ -144,7 +142,8 @@
             position: relative;
             box-shadow: 0 20px 50px rgba(0,0,0,0.5);
             text-align: center;
-            transition: background 0.3s ease;
+            /* Subtler fade for the background itself as gradients change dynamically */
+            transition: background 0.15s ease-out; 
         }
 
         .close-btn {
@@ -161,7 +160,7 @@
         
         #modal-tier-indicator-wrapper {
             display: flex;
-            justify-content: center;
+            justify(content: center;
             margin-bottom: 20px;
         }
         
@@ -323,7 +322,10 @@
             document.getElementById('modal-tier-icon').innerText = iconName;
             
             const colorRgbStr = `${rgb[0]}, ${rgb[1]}, ${rgb[2]}`;
-            const gradient = `linear-gradient(to bottom, rgba(${colorRgbStr}, 0.15), var(--bg-card))`;
+            // Dynamic Gradient Updates:
+            // 1. Increased opacity to 0.3 for more intensity.
+            // 2. Focused on top: Solid for first 20%, fades out quickly and is gone by 60%.
+            const gradient = `linear-gradient(to bottom, rgba(${colorRgbStr}, 0.3) 0%, rgba(${colorRgbStr}, 0.3) 20%, rgba(${colorRgbStr}, 0) 60%)`;
             document.getElementById('modalOverlay').querySelector('.modal-content').style.background = gradient;
 
             document.getElementById('modal-description').innerText = detail.desc;
