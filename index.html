@@ -16,6 +16,10 @@
             --bg-row-low: #13171d;
             --text-main: #ffffff;
             --text-muted: #7d8590;
+            --accent-strength: #a3e635;
+            --accent-weakness: #fb7185;
+            --accent-alts: #60a5fa;
+            --modal-overlay: rgba(0, 0, 0, 0.8);
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -31,11 +35,7 @@
         }
 
         /* --- Header Section --- */
-        .main-header {
-            margin-bottom: 40px;
-            padding-left: 4px;
-        }
-
+        .main-header { margin-bottom: 40px; padding-left: 4px; }
         .main-header h1 {
             font-size: 2.75rem;
             font-weight: 500;
@@ -45,39 +45,28 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-
         .main-header .subtext {
             color: var(--text-muted);
             font-size: 0.95rem;
             display: flex;
             align-items: center;
             gap: 12px;
-            font-weight: 400;
         }
-
         .main-header .divider { opacity: 0.3; }
 
         /* --- Board Container --- */
-        .board-wrapper {
-            width: 100%;
-            overflow-x: auto;
-            padding-bottom: 24px;
-        }
-
+        .board-wrapper { width: 100%; overflow-x: auto; padding-bottom: 24px; }
         .board-wrapper::-webkit-scrollbar { height: 12px; }
         .board-wrapper::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.02); border-radius: 10px; }
         .board-wrapper::-webkit-scrollbar-thumb { background: #30363d; border-radius: 10px; border: 3px solid var(--bg-body); }
 
         .board-container {
             display: grid;
-            /* Reduced minimum width from 260px to 210px */
             grid-template-columns: repeat(6, minmax(210px, 1fr));
             gap: 10px;
             width: max-content; 
             min-width: 100%;
         }
-
-        .tier-column { background-color: transparent; height: fit-content; }
 
         .tier-header {
             padding: 20px 14px;
@@ -110,42 +99,70 @@
             display: grid;
             grid-template-columns: 26px 1fr auto; 
             align-items: center;
-            gap: 10px; /* Slightly more gap for larger text */
+            gap: 10px;
             padding: 3px 10px;
             border-radius: 5px;
             border: 1px solid #21262d;
-            transition: transform 0.1s ease;
+            transition: all 0.2s ease;
+            cursor: pointer;
         }
 
-        .player-row:hover { transform: scale(1.02); }
+        .player-row:hover { transform: translateY(-2px); border-color: #444c56; }
         .player-row.rank-high { background-color: var(--bg-row-high); }
         .player-row.rank-low { background-color: var(--bg-row-low); opacity: 0.95; }
         .player-row.rank-none { background-color: var(--bg-row-low); }
 
         .avatar { width: 26px; height: 26px; border-radius: 3px; background: #30363d; object-fit: cover; }
-        
-        .username { 
-            font-size: 0.9rem; /* Increased from 0.8rem */
-            font-weight: 500; 
-            line-height: 1.2;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
+        .username { font-size: 0.9rem; font-weight: 500; line-height: 1.2; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .rank-icon { font-size: 16px !important; font-variation-settings: 'wght' 600; user-select: none; color: #adb2c9; }
+
+        /* --- Modal Styling --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--modal-overlay);
+            backdrop-filter: blur(8px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            padding: 20px;
         }
 
-        .rank-icon { font-size: 16px !important; font-variation-settings: 'wght' 600; user-select: none; }
-        .rank-high .rank-icon { color: #adb2c9; }
-        .rank-low .rank-icon { color: #646775; }
+        .modal-content {
+            background: var(--bg-card);
+            border: 1px solid #30363d;
+            border-radius: 12px;
+            width: 100%;
+            max-width: 450px;
+            padding: 32px;
+            position: relative;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            text-align: center;
+        }
 
-        .board-footer {
-            margin-top: 32px;
+        .close-btn {
+            position: absolute;
+            top: 16px; right: 16px;
+            cursor: pointer;
             color: var(--text-muted);
-            font-size: 0.85rem;
-            line-height: 1.6;
-            max-width: 900px;
-            padding-left: 4px;
+            transition: color 0.2s;
         }
-        .board-footer p { margin-bottom: 2px; }
+        .close-btn:hover { color: #fff; }
+
+        #modal-username { font-size: 2rem; font-weight: 800; margin-bottom: 20px; letter-spacing: -0.02em; }
+        #modal-img { width: 120px; height: 120px; border-radius: 12px; margin-bottom: 24px; border: 2px solid #30363d; object-fit: cover; }
+        #modal-description { color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; margin-bottom: 24px; white-space: pre-line; }
+
+        .modal-section { text-align: left; margin-top: 20px; }
+        .modal-section-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.05em; }
+        .modal-section-content { color: var(--text-main); font-size: 0.9rem; line-height: 1.5; white-space: pre-line; }
+
+        .title-strength { color: var(--accent-strength); }
+        .title-weakness { color: var(--accent-weakness); }
+        .title-alts { color: var(--accent-alts); }
+
+        .board-footer { margin-top: 32px; color: var(--text-muted); font-size: 0.85rem; line-height: 1.6; max-width: 900px; padding-left: 4px; }
         .score-highlight { color: var(--text-main); font-weight: 600; }
 
     </style>
@@ -171,6 +188,30 @@
         <p>Player skill level measurement is based on score, strategy and how easy or hard it is to win against the player.</p>
         <p>The order of players from top to bottom is not relevant.</p>
     </footer>
+
+    <div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <span class="material-symbols-outlined close-btn" onclick="closeModal()">close</span>
+            <h2 id="modal-username">Username</h2>
+            <img id="modal-img" src="" alt="Player Avatar">
+            <p id="modal-description"></p>
+            
+            <div class="modal-section">
+                <div class="modal-section-title title-strength">Strengths</div>
+                <div class="modal-section-content" id="modal-strengths"></div>
+            </div>
+
+            <div class="modal-section">
+                <div class="modal-section-title title-weakness">Weaknesses</div>
+                <div class="modal-section-content" id="modal-weaknesses"></div>
+            </div>
+
+            <div class="modal-section" id="alts-section">
+                <div class="modal-section-title title-alts">Alts</div>
+                <div class="modal-section-content" id="modal-alts"></div>
+            </div>
+        </div>
+    </div>
 
     <script>
         const data = {
@@ -207,10 +248,55 @@
             ]
         };
 
+        /* --- Separate Modal Data Storage --- */
+        const playerDetails = {
+            "Kephralis": {
+                desc: "Placeholder text 12345 ABCD.\nNewlined text 1234.",
+                strengths: "StrengthPlaceholder1\nStrengthPlaceholder2",
+                weaknesses: "WeaknessPlaceholder1\nWeaknessPlaceholder2",
+                alts: "AltsPlaceholder1\nAltsPlaceholder2"
+            },
+            "xosulow": {
+                desc: "Known for suspicious movement and perfect tracking.",
+                strengths: "Unnatural aim\nInstant reactions",
+                weaknesses: "Very obvious hacks\nBan prone",
+                alts: "" // Empty will hide the section
+            }
+        };
+
         const tierIcons = {
             "Actually Good": "crown", "Decent": "kid_star", "Mid": "sentiment_neutral",
             "Below Average": "trending_down", "Trash": "delete", "Cheating": "accessible_forward"
         };
+
+        function openModal(name, img) {
+            const detail = playerDetails[name] || {
+                desc: "Placeholder text 12345 ABCD.\nNewlined text 1234.",
+                strengths: "StrengthPlaceholder1\nStrengthPlaceholder2",
+                weaknesses: "WeaknessPlaceholder1\nWeaknessPlaceholder2",
+                alts: ""
+            };
+
+            document.getElementById('modal-username').innerText = name;
+            document.getElementById('modal-img').src = img;
+            document.getElementById('modal-description').innerText = detail.desc;
+            document.getElementById('modal-strengths').innerText = detail.strengths;
+            document.getElementById('modal-weaknesses').innerText = detail.weaknesses;
+
+            const altsSection = document.getElementById('alts-section');
+            if (detail.alts && detail.alts.trim() !== "") {
+                altsSection.style.display = "block";
+                document.getElementById('modal-alts').innerText = detail.alts;
+            } else {
+                altsSection.style.display = "none";
+            }
+
+            document.getElementById('modalOverlay').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('modalOverlay').style.display = 'none';
+        }
 
         function render() {
             const container = document.getElementById('leaderboard');
@@ -224,7 +310,7 @@
                     const iconHtml = isRankless ? '' : `<span class="material-symbols-outlined rank-icon">${p.rank === "high" ? "north" : "south"}</span>`;
                     
                     return `
-                        <div class="player-row ${currentRankClass}">
+                        <div class="player-row ${currentRankClass}" onclick="openModal('${p.name}', '${p.img}')">
                             <img src="${p.img}" class="avatar" alt="${p.name}">
                             <div class="username">${p.name}</div>
                             ${iconHtml}
@@ -234,10 +320,7 @@
 
                 const headerIcon = tierIcons[tier] || "";
                 tierDiv.innerHTML = `
-                    <div class="tier-header">
-                        <span class="material-symbols-outlined">${headerIcon}</span>
-                        ${tier}
-                    </div>
+                    <div class="tier-header"><span class="material-symbols-outlined">${headerIcon}</span>${tier}</div>
                     <div class="player-list">${playersHtml}</div>
                 `;
                 container.appendChild(tierDiv);
