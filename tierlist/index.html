@@ -303,9 +303,45 @@
             ]
         };
 
-        const playerDetails = {
-            "Kephralis": { desc: "Placeholder text 12345 ABCD.\nNewlined text 1234.", strengths: "StrengthPlaceholder1\nStrengthPlaceholder2", weaknesses: "WeaknessPlaceholder1\nWeaknessPlaceholder2", alts: "AltsPlaceholder1\nAltsPlaceholder2" }
-        };
+const playerDetails = {
+    // Player 1: Has a couple of alts
+    "Kephralis": { 
+        desc: "A highly aggressive player known for quick rush tactics and early game dominance.", 
+        strengths: "Fast reaction time\nExcellent mechanical skill", 
+        weaknesses: "Overextends often\nPoor resource management", 
+        alts: "AltAccount1\nSecretSmurf" 
+    },
+    
+    // Player 2: Has no alts (property is completely omitted)
+    "Mr Binzy": { 
+        desc: "A strategic mastermind who prefers slow, methodical gameplay and late-game scaling.", 
+        strengths: "Great map awareness\nUnpredictable strategies", 
+        weaknesses: "Struggles under early pressure\nSlower mechanical speed"
+    },
+    
+    // Player 3: Has one alt
+    "xosulow": { 
+        desc: "A well-rounded player with consistent performance across the board.", 
+        strengths: "Solid defense\nGood adaptability", 
+        weaknesses: "Lacks a killer instinct\nSometimes predictable", 
+        alts: "JustAnotherAlt" 
+    },
+    
+    // Player 4: Has no alts (using an empty string)
+    "Rozern": { 
+        desc: "An absolute wildcard. Sometimes plays like a top-tier pro, sometimes completely throws.", 
+        strengths: "Extremely high peak performance\nCreative problem solving", 
+        weaknesses: "Highly inconsistent\nTilts easily",
+        alts: "" 
+    },
+    
+    // Player 5: Has no alts (property omitted)
+    "Tik Tok yybd": { 
+        desc: "A defensive specialist who excels at forcing the opponent to make mistakes.", 
+        strengths: "Impenetrable defense\nExtreme patience", 
+        weaknesses: "Weak early game\nStruggles against heavy, sustained aggro"
+    }
+};
 
         const playerTierInfo = {};
         const playerRankInfo = {};
