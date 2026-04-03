@@ -288,20 +288,14 @@
             ],
             "Mid": [
                 { name: "KB0L", rank: "high", img: "https://raw.githubusercontent.com/Kephralis/website/refs/heads/main/images/kbb.png" },
-                { name: "kifve", rank: "low", img: "https://raw.githubusercontent.com/Kephralis/website/refs/heads/main/images/kfv.png" },
-                { name: "Sorakimine", rank: "low", img: "https://raw.githubusercontent.com/Kephralis/website/refs/heads/main/images/phold.png" },
-                { name: "zSqmantha", rank: "low", img: "https://raw.githubusercontent.com/Kephralis/website/refs/heads/main/images/phold.png" },
-                { name: "Sayoshima", rank: "low", img: "https://raw.githubusercontent.com/Kephralis/website/refs/heads/main/images/phold.png" },
+                { name: "Simofied", rank: "high", img: "https://raw.githubusercontent.com/Kephralis/website/refs/heads/main/images/phold.png" },
+                { name: "Eziak123", rank: "high", img: "https://raw.githubusercontent.com/Kephralis/website/refs/heads/main/images/ezk.jpg" },
                 { name: "I BuFo I", rank: "low", img: "https://raw.githubusercontent.com/Kephralis/website/refs/heads/main/images/simp.png" },
-                { name: "MegaFoxBound", rank: "low", img: "https://raw.githubusercontent.com/Kephralis/website/refs/heads/main/images/phold.png" },
-                { name: "c6m3", rank: "low", img: "https://raw.githubusercontent.com/Kephralis/website/refs/heads/main/images/phold.png" }
+                { name: "Suspqct", rank: "low", img: "https://raw.githubusercontent.com/Kephralis/website/refs/heads/main/images/phold.png" }
             ],
             "Below Average": [
-                { name: "SavedByP1ng", rank: "high", img: "https://raw.githubusercontent.com/Kephralis/website/refs/heads/main/images/L.png" },
-                { name: "Suspqct", rank: "high", img: "https://raw.githubusercontent.com/Kephralis/website/refs/heads/main/images/phold.png" },
-                { name: "wClient", rank: "high", img: "https://raw.githubusercontent.com/Kephralis/website/refs/heads/main/images/phold.png" },
-                { name: "kizueki", rank: "low", img: "https://raw.githubusercontent.com/Kephralis/website/refs/heads/main/images/phold.png" },
-                { name: "DeViL1090109010", rank: "low", img: "https://raw.githubusercontent.com/Kephralis/website/refs/heads/main/images/phold.png" }
+                { name: "DeViL1090109010", rank: "high", img: "https://raw.githubusercontent.com/Kephralis/website/refs/heads/main/images/phold.png" },
+                { name: "SavedByP1ng", rank: "low", img: "https://raw.githubusercontent.com/Kephralis/website/refs/heads/main/images/L.png" }
             ],
             "Trash": [
                 { name: "TrashPlayer1", rank: "none", img: "https://raw.githubusercontent.com/Kephralis/website/refs/heads/main/images/phold.png" },
@@ -312,36 +306,52 @@
             ]
         };
 
-        const playerDetails = {
-            "Kephralis": { 
-                desc: "A highly aggressive player known for quick rush tactics and early game dominance.", 
-                strengths: "Fast reaction time\nExcellent mechanical skill", 
-                weaknesses: "Overextends often\nPoor resource management", 
-                alts: "AltAccount1\nSecretSmurf" 
-            },
-            "Mr Binzy": { 
-                desc: "A strategic mastermind who prefers slow, methodical gameplay and late-game scaling.", 
-                strengths: "Great map awareness\nUnpredictable strategies", 
-                weaknesses: "Struggles under early pressure\nSlower mechanical speed"
-            },
-            "BisonJaguar": { 
-                desc: "A well-rounded player with consistent performance across the board.", 
-                strengths: "Solid defense\nGood adaptability", 
-                weaknesses: "Lacks a killer instinct\nSometimes predictable", 
-                alts: "JustAnotherAlt" 
-            },
-            "Rozern": { 
-                desc: "An absolute wildcard. Sometimes plays like a top-tier pro, sometimes completely throws.", 
-                strengths: "Extremely high peak performance\nCreative problem solving", 
-                weaknesses: "Highly inconsistent\nTilts easily",
-                alts: "" 
-            },
-            "Tik Tok yybd": { 
-                desc: "A defensive specialist who excels at forcing the opponent to make mistakes.", 
-                strengths: "Impenetrable defense\nExtreme patience", 
-                weaknesses: "Weak early game\nStruggles against heavy, sustained aggro"
-            }
-        };
+const playerDetails = {
+    // Player 1: Has a couple of alts
+    "Kephralis": { 
+        desc: "The Greatest of All Time. He's the best when it comes to resets, movement, aiming and every aspect of Minecraft Bedrock PvP.", 
+        strengths: "All of them", 
+        weaknesses: "None", 
+        alts: "SynixPvP" 
+    },
+    
+    // Player 2: Has no alts (property is completely omitted)
+    "Mr Binzy": { 
+        desc: "A known lag-carried zulu tribesman living in the lush jungles of South Africa. He has an unusually large ego for his skill level, and has been observed praying to his god Unkulunkulu before every fight to secure victory.", 
+        strengths: "African Warrior Tribal Spirit", 
+        weaknesses: "Lagging network connection due to the mud hut's electrically conductive properties.\nConsumes muddy water, which dehydrates and weakens him in battle."
+    },
+    
+    // Player 3: Has one alt
+    "Rozern": { 
+        desc: "PLCEHOLDER", 
+        strengths: "Has Aura\nIs Known", 
+        weaknesses: "None", 
+        alts: "" 
+    },
+    
+    // Player 4: Has no alts (using an empty string)
+    "Tik Tok yybd": { 
+        desc: "This seemingly unknown islamic arab is better than most people on this list. He types in an unidentified alien cipher consisting of latin letters and numbers to communicate to other arab spies, fighting for the Islamic State's glory.", 
+        strengths: "Praises Allah and is rewarded with reach.", 
+        weaknesses: "Sandstorms",
+        alts: "" 
+    },
+
+    "I BuFo I": { 
+        desc: "Controller guy. Also experiences strange hallucinations about an imaginary female named Lily.", 
+        strengths: "None", 
+        weaknesses: "Psychosis",
+        alts: "" 
+    },
+    
+    // Player 5: Has no alts (property omitted)
+    "KB0L": { 
+        desc: `This player is a Mid-tier PvPer overall. He is a "chill guy", maintaining a low cortisol level throughout his many hours of gameplay. Make sure not to fight him more than once, or else he'll "figure out your playstyle" and outplay you like the 400iq supergenius he is.`, 
+        strengths: "Can counter and outmove anyone.", 
+        weaknesses: "Zeqa Moderator"
+    }
+};
 
         const playerTierInfo = {};
         const playerRankInfo = {};
