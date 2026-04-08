@@ -35,13 +35,14 @@
         }
 
         .hero-title {
-            display: flex;
             font-size: 5rem;
             font-weight: 700;
             letter-spacing: -0.02em;
             margin-bottom: 2.5rem;
             text-align: center;
-            /* Glow effect applied to the container of the letters */
+            display: flex;
+            gap: 2px;
+            /* Glow effect */
             filter: drop-shadow(0px 0px 15px rgba(255, 255, 255, 0.2));
         }
 
@@ -58,34 +59,38 @@
             -webkit-background-clip: text;
             background-clip: text;
 
-            /* Animations: Wave (movement) and RGB (color) */
+            /* Apply animations to each letter */
             animation: 
-                wave 2.5s ease-in-out infinite,
-                rgb-cycle 6s linear infinite;
+                wave-float 2s ease-in-out infinite,
+                rgb-shift 6s linear infinite;
         }
 
-        /* Movement Animation */
-        @keyframes wave {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-20px); }
+        /* The separate delays create the "wave" look */
+        .hero-title span:nth-child(1) { animation-delay: 0.0s; }
+        .hero-title span:nth-child(2) { animation-delay: 0.1s; }
+        .hero-title span:nth-child(3) { animation-delay: 0.2s; }
+        .hero-title span:nth-child(4) { animation-delay: 0.3s; }
+        .hero-title span:nth-child(5) { animation-delay: 0.4s; }
+        .hero-title span:nth-child(6) { animation-delay: 0.5s; }
+        .hero-title span:nth-child(7) { animation-delay: 0.6s; }
+        .hero-title span:nth-child(8) { animation-delay: 0.7s; }
+        .hero-title span:nth-child(9) { animation-delay: 0.8s; }
+
+        /* Oscillating Motion */
+        @keyframes wave-float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-25px);
+            }
         }
 
-        /* RGB Cycling Animation */
-        @keyframes rgb-cycle {
+        /* RGB Cycling */
+        @keyframes rgb-shift {
             0% { background-position: 0% center; }
-            100% { background-position: 400% center; }
+            100% { background-position: -400% center; }
         }
-
-        /* Staggering the letters for the wave effect */
-        .hero-title span:nth-child(1) { animation-delay: 0.1s; }
-        .hero-title span:nth-child(2) { animation-delay: 0.2s; }
-        .hero-title span:nth-child(3) { animation-delay: 0.3s; }
-        .hero-title span:nth-child(4) { animation-delay: 0.4s; }
-        .hero-title span:nth-child(5) { animation-delay: 0.5s; }
-        .hero-title span:nth-child(6) { animation-delay: 0.6s; }
-        .hero-title span:nth-child(7) { animation-delay: 0.7s; }
-        .hero-title span:nth-child(8) { animation-delay: 0.8s; }
-        .hero-title span:nth-child(9) { animation-delay: 0.9s; }
 
         .button-group {
             display: flex;
@@ -113,7 +118,7 @@
             background-color: #21262d;
             border-color: #8b949e;
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
         }
 
         @media (max-width: 600px) {
