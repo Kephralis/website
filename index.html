@@ -31,14 +31,17 @@
             justify-content: center;
             align-items: center;
             padding: 3rem 2rem;
+            overflow: hidden; /* Prevents scrollbars if letters bounce high */
         }
 
         .hero-title {
             font-size: 5rem;
             font-weight: 700;
             letter-spacing: -0.04em;
-            margin-bottom: 2rem;
+            margin-bottom: 2.5rem;
             text-align: center;
+            display: flex;
+            gap: 2px; /* Slight spacing between letters */
             
             /* RGB Text Effect */
             background: linear-gradient(
@@ -50,33 +53,47 @@
             -webkit-background-clip: text;
             background-clip: text;
             
-            /* Slight Glow (Using drop-shadow because text is transparent) */
-            filter: drop-shadow(0px 0px 12px rgba(255, 255, 255, 0.25));
+            /* Glow effect on the whole container */
+            filter: drop-shadow(0px 0px 15px rgba(255, 255, 255, 0.2));
 
-            /* Floating and Color Cycling Animations */
-            animation: rgb-wave 4s linear infinite, float 4s ease-in-out infinite;
+            /* Color Cycle Animation */
+            animation: rgb-wave 4s linear infinite;
         }
 
-        /* Float Up and Down */
-        @keyframes float {
+        /* Individual Letter Styling */
+        .hero-title span {
+            display: inline-block;
+            animation: wave-float 2s ease-in-out infinite;
+        }
+
+        /* Wave Motion */
+        @keyframes wave-float {
             0%, 100% {
                 transform: translateY(0);
             }
             50% {
-                transform: translateY(-15px);
+                transform: translateY(-25px); /* Increased for a more noticeable wave */
             }
         }
 
-        /* Cycle the Gradient */
+        /* RGB Cycle */
         @keyframes rgb-wave {
-            0% {
-                background-position: 0% center;
-            }
-            100% {
-                background-position: -200% center;
-            }
+            0% { background-position: 0% center; }
+            100% { background-position: -200% center; }
         }
 
+        /* Setting the delay for each letter to create the wave offset */
+        .hero-title span:nth-child(1) { animation-delay: 0.0s; }
+        .hero-title span:nth-child(2) { animation-delay: 0.1s; }
+        .hero-title span:nth-child(3) { animation-delay: 0.2s; }
+        .hero-title span:nth-child(4) { animation-delay: 0.3s; }
+        .hero-title span:nth-child(5) { animation-delay: 0.4s; }
+        .hero-title span:nth-child(6) { animation-delay: 0.5s; }
+        .hero-title span:nth-child(7) { animation-delay: 0.6s; }
+        .hero-title span:nth-child(8) { animation-delay: 0.7s; }
+        .hero-title span:nth-child(9) { animation-delay: 0.8s; }
+
+        /* Buttons */
         .button-group {
             display: flex;
             gap: 20px;
@@ -105,25 +122,18 @@
             transform: translateY(-2px);
         }
 
-        /* Responsive design for smaller screens */
         @media (max-width: 600px) {
-            .hero-title {
-                font-size: 3.5rem;
-            }
-            .button-group {
-                flex-direction: column;
-                width: 100%;
-                max-width: 250px;
-            }
-            .btn {
-                width: 100%;
-            }
+            .hero-title { font-size: 3.5rem; }
+            .button-group { flex-direction: column; width: 100%; max-width: 250px; }
+            .btn { width: 100%; }
         }
     </style>
 </head>
 <body>
 
-    <h1 class="hero-title">Kephralis</h1>
+    <h1 class="hero-title">
+        <span>K</span><span>e</span><span>p</span><span>h</span><span>r</span><span>a</span><span>l</span><span>i</span><span>s</span>
+    </h1>
     
     <div class="button-group">
         <a href="https://kephralis.github.io/tierlist/" class="btn">Tier List</a>
