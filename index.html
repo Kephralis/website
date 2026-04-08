@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kephralis</title>
+    
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap">
+    
+    <style>
+        :root {
+            --bg-body: #07090d;
+            --bg-card: #161b22;
+            --text-main: #ffffff;
+            --text-muted: #7d8590;
+        }
+
+        * { 
+            box-sizing: border-box; 
+            margin: 0; 
+            padding: 0; 
+        }
+
+        body {
+            font-family: 'Geist', sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            justify-content: center;
+            align-items: center;
+            padding: 3rem 2rem;
+        }
+
+        .hero-title {
+            font-size: 5rem;
+            font-weight: 700;
+            letter-spacing: -0.04em;
+            color: #ffffff;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 20px;
+        }
+
+        .btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: var(--text-main);
+            background-color: var(--bg-card);
+            border: 1px solid #30363d;
+            padding: 14px 32px;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 500;
+            letter-spacing: 0.02em;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: #21262d;
+            border-color: #8b949e;
+            transform: translateY(-2px);
+        }
+
+        /* Responsive design for smaller screens */
+        @media (max-width: 600px) {
+            .hero-title {
+                font-size: 3.5rem;
+            }
+            .button-group {
+                flex-direction: column;
+                width: 100%;
+                max-width: 250px;
+            }
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <h1 class="hero-title">Kephralis</h1>
+    
+    <div class="button-group">
+        <a href="https://kephralis.github.io/tierlist/" class="btn">Tier List</a>
+        <a href="https://kephralis.github.io/resume.png" class="btn" target="_blank" rel="noopener noreferrer">Resume</a>
+    </div>
+
+</body>
+</html>
